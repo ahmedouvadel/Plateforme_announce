@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Annonces Validées {% endblock %}
+
+{% block content %}
+  <div class="flex flex-col gap-8">
+      <div class="mx-20">
+          <span class=" text-2xl font-semibold font-['Poppins']">Annonces Validées</span>
+      </div>
+    <div class="flex flex-row w-full items-stretch justify-start  px-20 text-left  text-black font-['Poppins'] flex-wrap  ">
+        {% for annonce in annonces %}
+           <div class="relative flex flex-col items-center gap-2 px-5 py-3 w-[18rem] rounded-2xl shadow-2xl w-xs *:hover:cursor-pointer transition-all duration-500 ease-in-out transform hover:-translate-y-2 hover:scale-110 hover:border-2 hover:border-[#F7A400]" >
+                {% if annonce.image %}
+               <div class="p-2">
+                   <img src="{{ annonce.image.url }}" alt="Image de l'annonce" class="rounded-8xs w-full h-[10.25rem] cover object-cover">
+               </div>
+                {% endif %}
+                <div class="flex flex-col items-start">
+                    <div class="flex flex-row gap-1">
+                        <span class="text-[#3A3541] font-semibold font-['Poppins']">Titre : </span>
+                        <span class="text-[#3A3541] font-light font-['Poppins']">{{ annonce.titre }}</span>
+                </div>
+               <div class="flex flex-row items-center gap-1">
+                   <span class="text-[#3A3541] font-semibold font-['Poppins']">Prix : </span>
+                   <span class="text-[#3A3541] font-light font-['Poppins']"> {{ annonce.prix }} €</span>
+               </div>
+                <div class="flex flex-row items-center gap-1">
+                    <span class="text-[#3A3541] font-semibold font-['Poppins']">Catégorie : </span>
+                    <span class="text-[#3A3541] font-light font-['Poppins']">{{ annonce.categorie.titre }}</span>
+                </div>
+                <div class="flex flex-row justify-center items-center gap-1">
+                    <span class="text-[#3A3541] font-semibold font-['Poppins']">Description : </span>
+                    <span class="text-[#3A3541] font-light font-['Poppins']">{{ annonce.description }}</span>
+                </div>
+                    <div class="rounded-md bg-[#F7A400] w-[6.75rem] h-8 flex items-center justify-center gap-1 mt-3 cursor-pointer">
+          <span class=" text-sm font-light text-white font-['Poppins'] ">Voir détail</span>
+        </div>
+                </div>
+            </div>
+            <div>
+        {% endfor %}
+            </div>
+    </div>
+  </div>
+{% endblock %}
