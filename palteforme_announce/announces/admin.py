@@ -9,8 +9,8 @@ class CategoriesAdmin(admin.ModelAdmin):
 admin.site.register(Categories)
 
 class AnnonceAdmin(admin.ModelAdmin):
-    list_display = ('titre', 'prix', 'statut', 'categorie')
-    list_filter = ('statut', 'categorie')
+    list_display = ('titre', 'prix', 'statut', 'is_paid', 'categorie')
+    list_filter = ('statut', 'categorie', )
     search_fields = ('titre', 'description')
     actions = ['valider_annonce', 'rejeter_annonce']
 

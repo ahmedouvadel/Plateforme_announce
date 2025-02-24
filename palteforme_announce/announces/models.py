@@ -23,6 +23,8 @@ class Annonce(models.Model):
         default=AnnonceStatus.EN_ATTENTE
     )
     categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=False)  # Nouveau champ pour identifier les annonces payées
+
 
     def __str__(self):
         return self.titre

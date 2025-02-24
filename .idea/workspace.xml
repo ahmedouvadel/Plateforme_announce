@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/annonces_paid.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/categories.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/filter.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/annonces/Screenshot_2024-12-03_182736.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +51,13 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Ahmedou/PycharmProjects/plateforme_announce/palteforme_announce/theme/static/assets",
+    "last_opened_file_path": "C:/Users/Ahmedou/PycharmProjects/plateforme_announce/palteforme_announce/theme/templates",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ahmedou\PycharmProjects\plateforme_announce\palteforme_announce\theme\templates" />
       <recent name="C:\Users\Ahmedou\PycharmProjects\plateforme_announce\palteforme_announce\theme\static\assets" />
       <recent name="C:\Users\Ahmedou\PycharmProjects\plateforme_announce\palteforme_announce\theme\static_src" />
       <recent name="C:\Users\Ahmedou\PycharmProjects\plateforme_announce\palteforme_announce\theme" />

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
-from .models import Annonce, AnnonceStatus
+from .models import Annonce, AnnonceStatus, Categories
 from django.shortcuts import render, redirect
 from .forms import CategoryForm, AnnonceForm
 
@@ -36,3 +36,57 @@ def add_annonce(request):
         form = AnnonceForm()
 
     return render(request, 'add_annonce.html', {'form': form})
+
+
+class HomeView(View):
+    def get(self, request):
+        categories = Categories.objects.all()
+        annonces = Annonce.objects.filter(statut=AnnonceStatus.VALIDEE)
+        annonces_payees = Annonce.objects.filter(is_paid=True, statut="VALIDEE")
+        return render(request, 'base.html', {'categories': categories, 'annonces': annonces, 'annonces_payees': annonces_payees})
+
+
+
+class AnnoncesParCategorieView(View):
+    def get(self, request, category_id):
+        categorie = get_object_or_404(Categories, id=category_id)
+        annonces = Annonce.objects.filter(categorie=categorie, statut=AnnonceStatus.VALIDEE)
+
+        # Vérifier si c'est une requête AJAX
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            annonces_data = [
+                {
+                    'titre': annonce.titre,
+                    'prix': annonce.prix,
+                    'categorie': annonce.categorie.titre,
+                    'description': annonce.description,
+                    'image': annonce.image.url if annonce.image else None
+                }
+                for annonce in annonces
+            ]
+            return JsonResponse({'annonces': annonces_data})
+
+        return render(request, "liste_annonces.html", {"annonces": annonces, "categorie": categorie})
+
+class FilterAnnoncesView(View):
+    def get(self, request):
+        prix_min = request.GET.get('prix_min')
+        prix_max = request.GET.get('prix_max')
+        categorie_id = request.GET.get('categorie')
+
+        annonces = Annonce.objects.filter(statut="VALIDEE")
+
+        if prix_min:
+            annonces = annonces.filter(prix__gte=prix_min)
+        if prix_max:
+            annonces = annonces.filter(prix__lte=prix_max)
+        if categorie_id and categorie_id != "all":
+            annonces = annonces.filter(categorie_id=categorie_id)
+
+        categories = Categories.objects.all()
+
+        # Si la requête est AJAX, ne renvoyer que la partie des annonces
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return render(request, "liste_annonces.html", {"annonces": annonces})
+
+        return render(request, 'filter.html', {"annonces": annonces, "categories": categories})
