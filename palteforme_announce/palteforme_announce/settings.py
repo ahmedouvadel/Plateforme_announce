@@ -55,11 +55,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "palteforme_announce.urls"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Ajout du dossier templates
+        'DIRS': [os.path.join(BASE_DIR,'theme', 'templates')],  # Ajout du dossier templates
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
