@@ -1,0 +1,15 @@
+
+<!-- Dropdown des catégories -->
+{% block content %}
+<div class="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100">
+    <ul class="py-2">
+        {% for category in categories %}
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer transition duration-200">
+                {{ category.titre }}
+            </li>
+        {% empty %}
+            <li class="px-4 py-2 text-gray-500">Aucune catégorie disponible</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

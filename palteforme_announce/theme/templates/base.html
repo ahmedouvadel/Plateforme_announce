@@ -48,9 +48,14 @@
         <div class="container mx-auto flex items-center justify-between">
 
             <!-- Bouton Catégories -->
-            <button class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-bold">
-                <i class="bi bi-list text-lg mr-2"></i> Nos Catégories
-            </button>
+            <div class="relative group">
+    <button class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold">
+        <i class="bi bi-list text-lg mr-2"></i> Nos Catégories
+    </button>
+
+    <!-- Inclusion du template des catégories -->
+    {% include 'categories_dropdown.html' %}
+</div>
 
             <!-- Boutons des catégories -->
             <div class="flex space-x-4">

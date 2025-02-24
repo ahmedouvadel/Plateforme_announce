@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/categories_dropdown.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +44,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/authentication",
     "last_opened_file_path": "C:/Users/Ahmedou/PycharmProjects/plateforme_announce/palteforme_announce/theme/static/assets",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }

@@ -2,11 +2,19 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 
-from .models import Annonce, AnnonceStatus
+from .models import Annonce, AnnonceStatus, Categories
 from django.shortcuts import render, redirect
 from .forms import CategoryForm, AnnonceForm
 
 # Create your views here.
+def categories_dropdown(request):
+    categories = Categories.objects.all()  # Récupère toutes les catégories
+
+    # Afficher les catégories dans la console pour vérifier
+    print("Catégories récupérées :", list(categories))
+
+    return render(request, 'categories_dropdown.html', {'categories': categories})
+
 class AnnoncesValideesListView(View):
     def get(self, request):
         annonces = Annonce.objects.filter(statut=AnnonceStatus.VALIDEE)
