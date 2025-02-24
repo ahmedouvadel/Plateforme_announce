@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/palteforme_announce/theme/static/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/palteforme_announce/theme/static/assets/search.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/theme/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
