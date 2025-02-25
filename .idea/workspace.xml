@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/plateforme_announce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/plateforme_announce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/announces/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +22,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -45,7 +40,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "77c55139",
     "last_opened_file_path": "C:/Users/hpi7/Plateforme_announce",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
