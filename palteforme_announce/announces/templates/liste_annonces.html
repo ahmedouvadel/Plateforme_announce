@@ -1,56 +1,43 @@
-<div class="flex flex-col gap-8">
-    <div class="mx-20">
-        {% if categorie %}
-            <span class="text-2xl font-semibold font-['Poppins']">
-                Annonces pour la catégorie : {{ categorie.titre }}
-            </span>
-            <a href="{% url 'home' %}" class="ml-4 text-orange-500 text-sm font-medium hover:underline">
-                ⬅ Retour à toutes les annonces
-            </a>
-        {% else %}
-            <span class="text-2xl font-semibold font-['Poppins']">Annonces Validées</span>
-        {% endif %}
+
+    <div id="annonces-container" class="flex flex-wrap w-full justify-start px-20 text-black font-['Poppins'] gap-8">
+      {% for annonce in annonces %}
+        <a href="{% url 'annonce_detail' annonce.id %}" class="relative flex flex-col items-center h-auto gap-3 px-5 py-4 w-[18rem] bg-white rounded-2xl shadow-lg transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 hover:border-2 hover:border-[#E09351]">
+          {% if annonce.image %}
+            <div class="w-full">
+              <img src="{{ annonce.image.url }}" alt="Image de l'annonce" class="rounded-lg w-full h-[10.25rem] object-cover">
+            </div>
+          {% endif %}
+
+          <div class="flex flex-col items-start w-full text-[#3A3541]">
+            <p class="font-semibold">Titre : <span class="font-light">{{ annonce.titre }}</span></p>
+            <p class="font-semibold">Prix : <span class="font-light">{{ annonce.prix }} €</span></p>
+            <p class="font-semibold">Catégorie : <span class="font-light">{{ annonce.categorie.titre }}</span></p>
+            <p class="font-semibold">Description : <span class="font-light">{{ annonce.description }}</span></p>
+
+            <span class="mt-3 px-4 py-2 bg-[#E09351] text-white text-sm rounded-md shadow-md transition-all hover:bg-[#D08040]">Voir détail</span>
+          </div>
+        </a>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="flex flex-wrap w-full justify-start px-20 text-black font-['Poppins'] gap-8">
-        {% if annonces %}
-            {% for annonce in annonces %}
-                <div class="relative flex flex-col items-center h-auto gap-2 px-5 py-3 w-[18rem] rounded-2xl shadow-2xl hover:cursor-pointer transition-all duration-500 ease-in-out transform hover:-translate-y-2 hover:scale-110 hover:border-2 hover:border-[#F7A400]">
-                    {% if annonce.image %}
-                        <div class="p-2 w-full">
-                            <img src="{{ annonce.image.url }}" alt="Image de l'annonce" class="rounded-8xs w-full h-[10.25rem] object-cover">
-                        </div>
-                    {% endif %}
-
-                    <div class="flex flex-col items-start w-full">
-                        <div class="flex flex-row gap-1">
-                            <span class="text-[#3A3541] font-semibold">Titre :</span>
-                            <span class="text-[#3A3541] font-light">{{ annonce.titre }}</span>
-                        </div>
-
-                        <div class="flex flex-row items-center gap-1">
-                            <span class="text-[#3A3541] font-semibold">Prix :</span>
-                            <span class="text-[#3A3541] font-light">{{ annonce.prix }} €</span>
-                        </div>
-
-                        <div class="flex flex-row items-center gap-1">
-                            <span class="text-[#3A3541] font-semibold">Catégorie :</span>
-                            <span class="text-[#3A3541] font-light">{{ annonce.categorie.titre }}</span>
-                        </div>
-
-                        <div class="flex flex-row justify-start items-center gap-1">
-                            <span class="text-[#3A3541] font-semibold">Description :</span>
-                            <span class="text-[#3A3541] font-light">{{ annonce.description }}</span>
-                        </div>
-
-                        <div class="rounded-md bg-[#E09351] w-[6.75rem] h-8 flex items-center justify-center gap-1 mt-3 cursor-pointer">
-                            <span class="text-sm font-light text-white">Voir détail</span>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p class="text-center text-gray-500 text-lg w-full">Aucune annonce disponible pour cette catégorie.</p>
-        {% endif %}
-    </div>
-</div>
+  <script>
+    $(document).ready(function() {
+        $("form").submit(function(e) {
+            e.preventDefault();
+            let formData = $(this).serialize();
+            $.ajax({
+                url: "{% url 'filter_annonces' %}",
+                type: "GET",
+                data: formData,
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+                success: function(response) {
+                    $("#annonces-container").html(response);
+                },
+                error: function() {
+                    alert("Erreur lors du filtrage des annonces.");
+                }
+            });
+        });
+    });
+  </script>

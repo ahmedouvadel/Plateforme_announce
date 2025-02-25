@@ -12,6 +12,7 @@ class AnnonceStatus(models.TextChoices):
     VALIDEE = 'VALIDEE'
     REJETEE = 'REJETEE'
 
+
 class Annonce(models.Model):
     titre = models.CharField(max_length=50)
     description = models.TextField()
@@ -23,8 +24,10 @@ class Annonce(models.Model):
         default=AnnonceStatus.EN_ATTENTE
     )
     categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=False)  # Nouveau champ pour identifier les annonces payées
+    is_paid = models.BooleanField(default=False)
 
+    # ✅ Ajouter le champ views
+    views = models.IntegerField(default=0)  # Initialise avec 0
 
     def __str__(self):
         return self.titre

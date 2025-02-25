@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-
+from django.shortcuts import render, get_object_or_404
 from .models import Annonce, AnnonceStatus, Categories
 from django.shortcuts import render, redirect
 from .forms import CategoryForm, AnnonceForm
@@ -90,3 +90,13 @@ class FilterAnnoncesView(View):
             return render(request, "liste_annonces.html", {"annonces": annonces})
 
         return render(request, 'filter.html', {"annonces": annonces, "categories": categories})
+
+
+def annonce_detail(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    # Exemple : Récupérer le nombre de vues (implique une colonne `views` dans le modèle)
+    annonce.views += 1
+    annonce.save()
+
+    return render(request, 'annonce_detail.html', {'annonce': annonce})

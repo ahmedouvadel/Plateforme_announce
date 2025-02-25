@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -27,13 +28,13 @@
     <nav class="bg-gray-900 text-white py-4 px-6">
   <div class="container mx-auto flex items-center justify-between px-6">
     <!-- Logo -->
-    <a href="{% url 'home' %}"  class="flex items-center text-2xl font-bold">
+    <a href="{% url 'home' %}" class="flex items-center text-2xl font-bold">
 {% load static %}
 <img src="{% static 'assets/logo.png' %}" alt="Logo" class="h-10 mr-2">
     </a>
 
     <!-- Search Bar -->
-    <div class="flex-1 mx-32">
+    <div class="flex-1 mx-32 font-['Poppins']">
       <div class="relative items-center">
         <input type="text" placeholder="Chercher..." class="w-full py-2 pl-4 pr-10 rounded-lg text-gray-800">
         <button class="absolute right-2 top-2.5 text-orange-500">
@@ -98,37 +99,43 @@
 
         </div>
     </div>
-    <div class="container mx-auto px-20 py-8">
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">Annonces Payées</h2>
 
-    <!-- Swiper Slider -->
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            {% for annonce in annonces_payees %}
-                <div class="swiper-slide flex flex-col items-center bg-white shadow-lg rounded-lg ">
-                    <img src="{{ annonce.image.url }}" alt="{{ annonce.titre }}" class="w-full h-72 object-cover rounded-lg">
-                </div>
-            {% empty %}
-                <p class="text-gray-500 text-center">Aucune annonce payée disponible.</p>
-            {% endfor %}
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-20 py-8 bg-white shadow-md rounded-lg p-6 flex flex-col md:flex-row gap-8 items-start">
+
+        <div class="md:w-1/2 bg-white rounded-lg shadow-lg flex flex-col items-center">
+                <img src="{{ annonce.image.url }}" alt="{{ annonce.titre }}" class="w-full h-[26rem] cursor-zoom-in hover:object-cover object-contain rounded-lg shadow-lg">
         </div>
-        <!-- Navigation buttons -->
-        <div class="swiper-button-next text-gray-900"></div>
-        <div class="swiper-button-prev text-gray-900"></div>
-        <div class="swiper-pagination text-gray-900"></div>
-    </div>
-</div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 ">
-    {% block content %}
-        {% include "liste_annonces.html" %}
-    {% endblock %}
-</main>
+        <div class="md:w-1/2 flex flex-col gap-2">
+            <h2 class="text-3xl font-bold">{{ annonce.titre }}</h2>
+            <p class="text-lg font-light text-gray-600">Catégorie : <span class="font-semibold">{{ annonce.categorie.titre }}</span></p>
+            <p class="text-3xl font-bold text-red-600">{{ annonce.prix }} MRU</p>
+            <span class="bg-green-100 text-green-800 w-36 px-3 py-1 rounded-full text-sm font-medium">Stock Disponible</span>
+            <p class="text-lg text-gray-700 font-semibold">Description : <span class="font-normal">{{ annonce.description }}</span></p>
+
+
+            <div class="flex items-center gap-2">
+                <p class="font-semibold text-gray-900 flex items-center gap-2 mt-2">👀 Nombre de vues : <span class="font-light">{{ annonce.views }}</span></p>
+            </div>
+
+            <div class="flex flex-col gap-4 mt-4">
+                <button class="bg-[#E09351] text-white  px-6 py-3 rounded-lg flex items-center gap-2 justify-center shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 hover:bg-gray-900">
+                        📞 Contacter le vendeur
+                </button>
+                <button class="bg-teal-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 justify-center hover:bg-teal-800 rounded-2xl shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 ">
+                        ⭐ Ajouter aux favoris
+                </button>
+            </div>
+        </div>
+    </div>
+  </main>
+
 
 
     <!-- Footer -->
-    <footer class="bg-gray-900  text-white py-4 mt-8 ">
+    <footer class="bg-gray-900 text-white py-4 mt-8 ">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2024 - Plateforme Annonces</p>
         </div>
@@ -136,6 +143,8 @@
 <!-- Scripts JavaScript de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var slidesCount = document.querySelectorAll('.swiper-slide').length;
 $(document).ready(function() {
     // Intercepter la soumission du formulaire
     $("form").submit(function(e) {
@@ -158,12 +167,13 @@ $(document).ready(function() {
     });
 });
 </script>
-
     <script>
         console.log(Swiper);
 
-document.addEventListener("DOMContentLoaded", function() {
-    var slidesCount = document.querySelectorAll('.swiper-slide').length;
+document.getElementById("add-favorite").addEventListener("click", function() {
+    alert("Annonce ajoutée aux favoris !");
+});
+
 
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: slidesCount < 3 ? slidesCount : 3, // Ajuste si moins de 3 slides
