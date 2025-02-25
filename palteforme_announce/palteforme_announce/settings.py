@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "tailwind",
     "theme",
+    "authentication"
 ]
 
 MIDDLEWARE = [
@@ -87,9 +88,9 @@ TAILWIND_APP_NAME = 'theme'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'espdataclub',
+        'NAME': 'reso',
         'USER': 'root',
-        'PASSWORD': '09132339Aa',
+        'PASSWORD': '',
         'HOST': 'localhost',  # Serveur de la base de données
         'PORT': '3306',       # Port par défaut de MySQL
         'OPTIONS': {
@@ -135,8 +136,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / 'theme/static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'authentication.User'
+
+LOGIN_REDIRECT_URL = '/'  # Redirige vers la fonction custom_redirect
+LOGOUT_REDIRECT_URL = '/login'  # Redirige vers la page de connexion après logout
