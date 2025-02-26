@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+    <div class="flex flex-row bg-white rounded-2xl shadow-2xl w-full max-w-4xl">
+        <!-- Image (Côté droit) -->
+        <div class="hidden md:block w-1/2">
+            <img src="{% static 'assets/int.svg' %}" alt="Illustration" class="w-full h-full rounded-r-2xl">
+        </div>
+
+        <!-- Formulaire (Côté gauche) -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center p-8">
+            <div class="flex flex-col items-start ">
+                <div class="flex justify-center bg-gray-900 rounded-2xl px-2 pb-2  mb-6">
+                <img src="{% static 'assets/logo.png' %}" class="w-20 h-10" alt="Logo">
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-800 text-center">S'identifier</h2>
+            <p class="text-gray-500 text-center mb-6">Bienvenue sur votre espace utilisateur</p>
+            </div>
+
+            {% if messages %}
+                <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if form.errors %}
+                <p class="text-red-500 text-center">{{ form.errors }}</p>
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="POST" class="flex flex-col gap-4">
+                {% csrf_token %}
+
+                <!-- Email -->
+                <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 hover:shadow-xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d">
+                    <img src="{% static 'assets/email.svg' %}" class="w-6 h-6" alt="Email Icon">
+                    <input type="text" name="username" placeholder="Nom d'utilisateur"
+                           class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                </div>
+
+                <!-- Mot de passe -->
+                <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 hover:shadow-xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d">
+                    <img src="{% static 'assets/password.svg' %}" class="w-6 h-6" alt="Password Icon">
+                    <input type="password" name="password" placeholder="Mot de passe"
+                           class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                </div>
+
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        Se souvenir de moi
+                    </label>
+                    <a href="#" class="text-gray-900 hover:underline">Mot de passe oublié ?</a>
+                </div>
+
+                <button type="submit"
+                        class="bg-[#E09351] text-white text-lg font-semibold py-3 rounded-md hover:bg-gray-900  text-white  text-xl font-medium rounded-xl *:hover:cursor-pointer hover:shadow-xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d">
+                    Se connecter
+                </button>
+            </form>
+
+            <p class="text-center text-gray-600 mt-4">
+                Pas encore inscrit ? <a href="{% url 'register' %}" class="text-gray-900 font-medium transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:underline">Créer un compte</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
