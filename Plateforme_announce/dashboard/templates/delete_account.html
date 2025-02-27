@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Montserrat font -->
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <a href="{% url 'home' %}" class="flex items-center justify-center p-6 border-b border-gray-300">
+    <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
+</a>
+
+
+        <nav class="mt-6 space-y-2 px-4 font-['Poppins'] font-medium">
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+
+            <a href="{% url 'dashboard' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/dashboard/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/dashboard.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Dashboard</span>
+            </a>
+            {% endif %}
+
+            <a href="{% url 'annonces' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Annonces</span>
+            </a>
+
+{% if request.user.is_authenticated and request.user.is_superuser %}
+                <a href="{% url 'users' %}"
+                   class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                          {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
+                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <span class="ml-3">Utilisateurs</span>
+                </a>
+            {% endif %}
+        </nav>
+
+        <!-- Profil utilisateur -->
+        <div class="p-4 border-t border-gray-300 flex items-center mt-auto">
+            {% if request.user.is_authenticated %}
+                <!-- Vérification si l'utilisateur a une photo -->
+{% if request.user.photo_user and request.user.photo_user.url %}
+    <img src="{{ request.user.photo_user.url }}" alt="Profil"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
+{% else %}
+    <img src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
+{% endif %}
+
+                <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'logout' %}" class="text-gray-800 font-semibold hover:underline">Se Dconnecter</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+
+<div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4 text-center">Supprimer mon Compte</h2>
+        <p class="text-gray-700 text-center">Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
+
+        <form method="post" class="mt-4 text-center">
+            {% csrf_token %}
+            <button type="submit" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition">
+                Oui, supprimer mon compte
+            </button>
+        </form>
+
+        <a href="{% url 'profile' %}" class="block text-center text-blue-500 mt-4 hover:underline">
+            Annuler
+        </a>
+    </div>
+
+    </main>
+
+</body>
+</html>

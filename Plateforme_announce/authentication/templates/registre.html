@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+ <div class="flex flex-row bg-white rounded-2xl shadow-2xl w-full max-w-4xl">
+        <!--<div class="hidden md:block w-1/2">
+            <img src="{% static 'assets/int.svg' %}" alt="Illustration" class="w-full h-full rounded-r-2xl">
+        </div>-->
+
+        <!-- Formulaire (Côté gauche) -->
+        <div class="w-full  flex flex-col justify-center p-8">
+            <div class="flex flex-col items-start">
+                <div class="flex justify-center bg-gray-900 rounded-2xl px-2 pb-2 mb-6">
+                    <img src="{% static 'assets/logo.png' %}" class="w-24 h-10" alt="Logo">
+                </div>
+
+                <h2 class="text-3xl font-bold text-gray-800 text-center">Créer un compte</h2>
+                <p class="text-gray-500 text-center mb-6">Rejoignez notre communauté dès aujourd'hui !</p>
+            </div>
+
+            {% if messages %}
+                <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if form.errors %}
+                <p class="text-red-500 text-center">{{ form.errors }}</p>
+            {% endif %}
+
+            <form action="{% url 'register' %}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-4">
+                {% csrf_token %}
+
+                <!-- Nom d'utilisateur & Email -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/user.svg' %}" class="w-6 h-6" alt="User Icon">
+                        <input type="text" name="username" placeholder="Nom d'utilisateur"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/email.svg' %}" class="w-6 h-6" alt="Email Icon">
+                        <input type="email" name="email" placeholder="Email"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+                </div>
+
+                <!-- Mot de passe & Confirmation -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/password.svg' %}" class="w-6 h-6" alt="Password Icon">
+                        <input type="password" name="password1" placeholder="Mot de passe"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/password.svg' %}" class="w-6 h-6" alt="Password Icon">
+                        <input type="password" name="password2" placeholder="Confirmer le mot de passe"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+                </div>
+
+                <!-- Adresse & Téléphone -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/home.svg' %}" class="w-6 h-6" alt="Home Icon">
+                        <input type="text" name="adresse" placeholder="Votre adresse"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/phone.svg' %}" class="w-6 h-6" alt="Phone Icon">
+                        <input type="tel" name="telephone" placeholder="Numéro de téléphone"
+                               class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+                </div>
+
+                <!-- Photo de profil -->
+                <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                    <img src="{% static 'assets/photo.svg' %}" class="w-6 h-6" alt="Photo Icon">
+                    <input type="file" name="photo" class="ml-3 text-gray-700">
+                </div>
+
+                <button type="submit"
+                        class="bg-[#E09351] text-white text-lg font-semibold py-3 rounded-md hover:bg-gray-900 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                    S'inscrire
+                </button>
+            </form>
+
+            <p class="text-center text-gray-600 mt-4">
+                Déjà inscrit ? <a href="{% url 'login' %}" class="text-gray-900 font-medium hover:underline">Connectez-vous ici</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

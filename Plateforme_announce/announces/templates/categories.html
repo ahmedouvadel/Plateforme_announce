@@ -1,0 +1,24 @@
+
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-semibold mb-4">Nos Catégories</h2>
+
+    <div class="relative group">
+        <button class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold">
+            <i class="bi bi-list text-lg mr-2"></i> Nos Catégories
+        </button>
+
+        <!-- Dropdown des catégories -->
+        <div class="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100">
+            <ul class="py-2">
+                <p class="px-4 py-2 text-red-500">Vérification : {{ categories|length }} catégories trouvées</p>
+                {% for category in categories %}
+                    <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer transition duration-200">
+                        {{ category.titre }}
+                    </li>
+                {% empty %}
+                    <li class="px-4 py-2 text-gray-500">Aucune catégorie disponible</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
