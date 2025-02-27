@@ -33,3 +33,22 @@ class Annonce(models.Model):
 
     def __str__(self):
         return f"{self.titre} - {self.user.username}"
+
+class Favori(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="favoris"
+    )
+    annonce = models.ForeignKey(
+        Annonce,
+        on_delete=models.CASCADE,
+        related_name="favoris"
+    )
+    date_ajout = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'annonce')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.annonce.titre}"

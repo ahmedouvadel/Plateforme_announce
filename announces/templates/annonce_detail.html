@@ -73,9 +73,9 @@
 {% endif %}
 {% if request.user.is_authenticated %}
 
-        <div class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
+        <a href="{% url 'mes_favoris' %}" class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
             <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
-        </div>
+        </a>
         {% endif %}
 
     </div>
@@ -136,9 +136,13 @@
                 <button class="bg-[#E09351] text-white  px-6 py-3 rounded-lg flex items-center gap-2 justify-center shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 hover:bg-gray-900">
                         📞 Contacter le vendeur
                 </button>
-                <button class="bg-teal-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 justify-center hover:bg-teal-800 rounded-2xl shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 ">
-                        ⭐ Ajouter aux favoris
-                </button>
+                {% if request.user.is_authenticated %}
+
+               <button id="favori-btn" class="bg-teal-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 justify-center hover:bg-teal-800 rounded-2xl shadow-md transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 " onclick="ajouterFavori('{{ annonce.id }}')">
+    ⭐ Ajouter aux favoris
+</button>
+                {% endif %}
+
             </div>
         </div>
     </div>
@@ -154,6 +158,32 @@
     </footer>
 <!-- Scripts JavaScript de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function ajouterFavori(annonceId) {
+        let btn = document.getElementById('favori-btn');
+        btn.disabled = true;
+        btn.innerText = "⏳ Ajout en cours...";
+
+        fetch(`/ajouter_favori/${annonceId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                btn.innerText = "✅ Ajouté aux favoris";
+                btn.classList.add("bg-green-600");
+                btn.classList.remove("bg-teal-700", "hover:bg-teal-800");
+            } else {
+                btn.innerText = "⭐ Ajouter aux favoris";
+                btn.disabled = false;
+                alert('Erreur lors de l\'ajout aux favoris.');
+            }
+        });
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
     var slidesCount = document.querySelectorAll('.swiper-slide').length;
