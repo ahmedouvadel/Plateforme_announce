@@ -6,6 +6,72 @@
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/0002_annonce_is_paid_alter_annonce_statut.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/0003_annonce_views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/0004_client.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/0005_annonce_user_alter_annonce_statut_client_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/add_annonce.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/add_category.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/annonce_detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/annonces_paid.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/categories.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/filter.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/templates/liste_annonces.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/announces/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/templates/registre.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/authentication/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/116e0a70-3b17-4518-aebe-87c1bcd77efe_iphone-13-pink128go.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/9e33a26f-d806-4fc6-91fe-1a8605121308.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/IMG_6303.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/IMG_7053.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/beauty_10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/beauty_10_BPNsDkA.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/beauty_10_VQI3NZg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/beauty_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/br.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/brima_categories.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/home_13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/home_16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/annonces/vadel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/profile_pictures/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/profile_pictures/im3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/media/profile_pictures/user-6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/palteforme_announce/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static/assets/search.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static_src/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static_src/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static_src/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static_src/src/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palteforme_announce/theme/static_src/tailwind.config.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +90,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "derwashler"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ahmedouvadel/Plateforme_announce.git",
+    "accountId": "f199a14c-4779-4540-bdd5-ede61b9737fa"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -40,7 +118,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "77c55139",
+    "git-widget-placeholder": "67909c86",
     "last_opened_file_path": "C:/Users/hpi7/Plateforme_announce",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
@@ -75,11 +153,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/palteforme_announce/palteforme_announce/urls.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/palteforme_announce/announces/models.py</url>
           <line>20</line>
