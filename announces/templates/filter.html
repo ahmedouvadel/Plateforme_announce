@@ -24,12 +24,12 @@
 <body class="bg-gray-100 text-gray-800 ">
 
     <!-- Header -->
-    <nav class="bg-gray-900 text-white py-4 px-6">
+   <nav class="bg-gray-900 text-white py-4 px-6">
   <div class="container mx-auto flex items-center justify-between px-6">
     <!-- Logo -->
-    <a href="{% url 'home' %}"  class="flex items-center text-2xl font-bold">
-{% load static %}
-<img src="{% static 'assets/logo.png' %}" alt="Logo" class="h-10 mr-2">
+    <a href="{% url 'home' %}" class="flex items-center text-2xl font-bold">
+      {% load static %}
+      <img src="{% static 'assets/logo.png' %}" alt="Logo" class="h-10 mr-2">
     </a>
 
     <!-- Search Bar -->
@@ -41,17 +41,39 @@
         </button>
       </div>
     </div>
-    <!-- Icons -->
-    <div class="flex space-x-6 items-center font-semibold hover:cursor-pointer  font-['Poppins']">
-        <div  class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110 ">Se Connecter
-        <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
-      </div>
-        <div  class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110  ">Favoris
-        <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
-      </div>
-        <div  class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110  ">🛒Panier
-        <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
-      </div>
+
+    <!-- Icons et Authentification -->
+    <div class="flex space-x-6 items-center font-semibold hover:cursor-pointer font-['Poppins']">
+       <!-- Vérifie si l'utilisateur est connecté -->
+{% if request.user.is_authenticated %}
+    <div class="flex items-center space-x-3">
+        <!-- Affichage de la photo de profil -->
+        {% if request.user.photo_user %}
+            <img src="{{ request.user.photo_user.url }}" alt="Photo de profil"
+                 class="w-10 h-10 rounded-full object-cover border border-gray-300">
+        {% else %}
+            <img src="{% static 'assets/avatar.png' %}" alt="Avatar"
+                 class="w-10 h-10 rounded-full object-cover border border-gray-300">
+        {% endif %}
+
+        <span class="text-white font-semibold">{{ request.user.username }}</span>
+
+        <!-- Bouton de déconnexion -->
+                <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="text-gray-300 text-sm hover:underline hover:text-white">
+        🚪 Déconnexion
+    </button>
+</form>
+    </div>
+{% else %}
+    <a href="{% url 'login' %}"
+       class="text-white font-semibold hover:underline hover:text-orange-500">🔑 Se connecter</a>
+{% endif %}
+
+        <div class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
+            <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
+        </div>
     </div>
   </div>
 </nav>

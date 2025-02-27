@@ -52,14 +52,14 @@
             <img src="{{ request.user.photo_user.url }}" alt="Photo de profil"
                  class="w-10 h-10 rounded-full object-cover border border-gray-300">
         {% else %}
-            <img src="{% static 'assets/default-user.png' %}" alt="Avatar"
+            <img src="{% static 'assets/avatar.png' %}" alt="Avatar"
                  class="w-10 h-10 rounded-full object-cover border border-gray-300">
         {% endif %}
 
         <span class="text-white font-semibold">{{ request.user.username }}</span>
 
         <!-- Bouton de déconnexion -->
-        <form method="post" action="{% url 'logout' %}?next={{ request.path }}">
+                <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit" class="text-gray-300 text-sm hover:underline hover:text-white">
         🚪 Déconnexion

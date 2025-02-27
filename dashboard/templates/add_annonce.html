@@ -1,0 +1,17 @@
+<h2 class="mb-4 text-xl font-semibold">Ajouter une Annonce</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="p-3 mb-4 text-white {% if message.tags == 'success' %}bg-green-500{% else %}bg-red-500{% endif %} rounded">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm bg-white rounded-lg">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- ✅ Affichage automatique des champs du formulaire -->
+    <button type="submit" class="btn btn-success">Publier</button>
+</form>
+
+<a href="{% url 'add_category' %}" class="btn btn-secondary mt-3">Ajouter une catégorie</a>

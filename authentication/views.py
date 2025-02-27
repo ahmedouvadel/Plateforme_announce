@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import User  # Assurez-vous que User est bien importé
 from django.core.files.storage import default_storage
-from announces.models import Client
+from authentication.models import Client  # ✅ Corrige l'import
 
 def register(request):
     if request.method == 'POST':

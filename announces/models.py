@@ -1,7 +1,6 @@
 from django.db import models
-from authentication.models import User
+from django.conf import settings  # ✅ Utilisation de settings.AUTH_USER_MODEL
 
-# Create your models here.
 class Categories(models.Model):
     titre = models.CharField(max_length=50)
 
@@ -9,19 +8,15 @@ class Categories(models.Model):
         return self.titre
 
 class AnnonceStatus(models.TextChoices):
-    EN_ATTENTE = 'EN_ATTENTE'
-    VALIDEE = 'VALIDEE'
-    REJETEE = 'REJETEE'
-
-from django.conf import settings
-from django.db import models
-  # Importer User depuis authentification
+    EN_ATTENTE = 'EN_ATTENTE', 'En attente'
+    VALIDEE = 'VALIDEE', 'Validée'
+    REJETEE = 'REJETEE', 'Rejetée'
 
 class Annonce(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,  # ✅ Remplace l'import direct de User
         on_delete=models.CASCADE,
-        related_name="reclamations"
+        related_name="annonces"
     )
     titre = models.CharField(max_length=50)
     description = models.TextField()
@@ -29,26 +24,12 @@ class Annonce(models.Model):
     image = models.ImageField(upload_to='annonces/')
     statut = models.CharField(
         max_length=10,
-        choices=[('en_attente', 'En attente'), ('rejete', 'Rejeté'), ('accepte', 'Accepté')],
-        default='en_attente'
+        choices=AnnonceStatus.choices,
+        default=AnnonceStatus.EN_ATTENTE
     )
-    categorie = models.ForeignKey('Categories', on_delete=models.CASCADE)
+    categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
     is_paid = models.BooleanField(default=False)
-    views = models.IntegerField(default=0)  # Nombre de vues, initialise à 0
+    views = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.titre} - {self.user.username}"  # Affiche le titre et l'utilisateur qui l'a créée
-
-
-from django.db import models
- # Importer User depuis authentification
-
-class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="client_info")
-    adresse = models.CharField(max_length=255, blank=True, null=True)
-    telephone = models.CharField(max_length=15, blank=True, null=True)
-
-    def __str__(self):
-        return self.user.username
-
-
+        return f"{self.titre} - {self.user.username}"

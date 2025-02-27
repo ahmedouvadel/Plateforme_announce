@@ -1,0 +1,34 @@
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Ajouter une Catégorie</h2>
+
+    <!-- Affichage des messages d'erreur ou de succès -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mb-4 px-4 py-2 text-white rounded-md {% if message.tags == 'success' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Formulaire d'ajout de catégorie -->
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.titre.id_for_label }}" class="block text-gray-700 font-medium">
+                Nom de la catégorie
+            </label>
+            {{ form.titre }}
+            {% if form.titre.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.titre.errors.as_text }}</p>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300">
+            Ajouter
+        </button>
+    </form>
+
+    <a href="{% url 'add_annonce' %}" class="block text-center text-blue-500 mt-4 hover:underline">
+        ➜ Retour à l'ajout d'annonce
+    </a>
+</div>
