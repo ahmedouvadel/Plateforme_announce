@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dashboard, dashboard_annonces, rejeter_annonce, add_annonce, valider_annonce, add_category, my_annonces, annonces_admin, update_annonce_status, statistics_view
+from .views import dashboard, dashboard_annonces, rejeter_annonce, add_annonce, valider_annonce, add_category, my_annonces, annonces_admin, update_annonce_status, statistics_view, marquer_annonce_payee
 
 urlpatterns = [
     path('dashboard/', annonces_admin, name='dashboard'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('statistics/', statistics_view, name='statistics'),
     path('dashboard/valider_annonce/<int:annonce_id>/', valider_annonce, name='valider_annonce'),
     path('dashboard/rejeter_annonce/<int:annonce_id>/', rejeter_annonce, name='rejeter_annonce'),
+    path('annonce_payee/<int:annonce_id>/', marquer_annonce_payee, name='marquer_annonce_payee'),
 ]

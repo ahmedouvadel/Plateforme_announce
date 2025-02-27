@@ -164,6 +164,7 @@
                         <th class="border border-gray-300 p-2">Utilisateur</th>
                         <th class="border border-gray-300 p-2">Statut</th>
                         <th class="border border-gray-300 p-2">Prix</th>
+                        <th class="border border-gray-300 p-2">Payé</th>
                         <th class="border border-gray-300 p-2">Actions</th>
                     </tr>
                 </thead>
@@ -191,6 +192,20 @@
 
                         <td class="border border-gray-300 p-2">{{ annonce.prix }} MRU</td>
                         <td class="border border-gray-300 p-2">
+                                {% csrf_token %}
+
+    {% if annonce.paiement_statut == "PAYEE" %}
+        ✅ Oui
+    {% else %}
+        ❌ Non
+        <button class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition"
+            onclick="marquerPayee({{ annonce.id }})">
+            💳 Marquer Payée
+        </button>
+    {% endif %}
+</td>
+
+                        <td class="border border-gray-300 p-2">
                             <a href="{% url 'annonce_detail' annonce.id %}" class="text-blue-500 hover:underline">Voir</a>
                         </td>
                     </tr>
@@ -207,6 +222,35 @@
 </div>
         {% endblock %}
     </main>
+ <script>
+    function marquerPayee(annonceId) {
+        let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+        if (!csrftoken) {
+            alert("CSRF token non trouvé !");
+            return;
+        }
+
+        fetch(`/dashboard/annonce_payee/${annonceId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Annonce marquée comme payée !');
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        }).catch(error => console.error("Erreur AJAX :", error));
+    }
+</script>
+
+
+
+
 <script>
     function changerStatut(annonceId, newStatus) {
         fetch(`/dashboard/annonces/update/${annonceId}/`, {

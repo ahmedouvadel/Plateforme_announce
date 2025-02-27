@@ -23,7 +23,7 @@ class HomeView(View):
     def get(self, request):
         categories = Categories.objects.all()
         annonces = Annonce.objects.filter(statut=AnnonceStatus.VALIDEE)
-        annonces_payees = Annonce.objects.filter(is_paid=True, statut="VALIDEE")
+        annonces_payees = Annonce.objects.filter(paiement_statut="PAYEE",statut="VALIDEE")
         return render(request, 'base.html', {'categories': categories, 'annonces': annonces, 'annonces_payees': annonces_payees})
 
 

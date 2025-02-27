@@ -8,6 +8,7 @@ from .forms import CategoryForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Count
+from django.utils.timezone import now
 
 
 @login_required
@@ -119,6 +120,21 @@ def rejeter_annonce(request, annonce_id):
     messages.error(request, "Annonce rejetée avec succès !")
     return redirect('dashboard')
 
+
+def marquer_annonce_payee(request, annonce_id):
+    if request.method != "POST":
+        return JsonResponse({"success": False, "message": "Méthode non autorisée."}, status=405)
+
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    if annonce.paiement_statut == "NON_PAYEE":
+        annonce.paiement_statut = "PAYEE"
+        annonce.save()
+        return JsonResponse({"success": True, "message": "Annonce marquée comme payée."})
+    else:
+        return JsonResponse({"success": False, "message": "Cette annonce est déjà payée."}, status=400)
+
+
 @login_required()
 def add_category(request):
     if request.method == 'POST':
@@ -207,3 +223,4 @@ def statistics_view(request):
     }
 
     return render(request, "statistics.html", context)
+
