@@ -1,17 +1,149 @@
-<h2 class="mb-4 text-xl font-semibold">Ajouter une Annonce</h2>
+{% load static %}
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="p-3 mb-4 text-white {% if message.tags == 'success' %}bg-green-500{% else %}bg-red-500{% endif %} rounded">
-            {{ message }}
-        </div>
-    {% endfor %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Montserrat font -->
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <a href="{% url 'home' %}" class="flex items-center justify-center p-6 border-b border-gray-300">
+    <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
+</a>
+
+
+        <nav class="mt-6 space-y-2 px-4 font-['Poppins'] font-medium">
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+
+            <a href="{% url 'dashboard' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/dashboard/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/dashboard.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Dashboard</span>
+            </a>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'statistics' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <span class="ml-3">Statistique</span>
+            </a>
+            {% endif %}
+
+            <a href="{% url 'annonces' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Annonces</span>
+            </a>
+
+{% if request.user.is_authenticated and request.user.is_superuser %}
+                <a href="{% url 'users' %}"
+                   class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                          {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
+                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <span class="ml-3">Utilisateurs</span>
+                </a>
+            {% endif %}
+        </nav>
+
+        <!-- Profil utilisateur -->
+        <div class="p-4 border-t border-gray-300 flex items-center mt-auto">
+            {% if request.user.is_authenticated %}
+                <!-- Vérification si l'utilisateur a une photo -->
+{% if request.user.photo_user and request.user.photo_user.url %}
+    <img src="{{ request.user.photo_user.url }}" alt="Profil"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
+{% else %}
+    <img src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% endif %}
 
-<form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm bg-white rounded-lg">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- ✅ Affichage automatique des champs du formulaire -->
-    <button type="submit" class="btn btn-success">Publier</button>
-</form>
+                <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'logout' %}" class="text-gray-800 font-semibold hover:underline">Se Dconnecter</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+            {% endif %}
+        </div>
+    </aside>
 
-<a href="{% url 'add_category' %}" class="btn btn-secondary mt-3">Ajouter une catégorie</a>
+        <main class="flex-1 p-6">
+            <div class="container mx-auto">
+
+<!-- Amélioration du template add_annonce.html pour ajouter plusieurs annonces à la fois -->
+
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Ajouter des Annonces</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 px-4 py-2 text-white rounded-md {% if message.tags == 'success' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="space-y-4" id="annonces-form">
+            {% csrf_token %}
+            <div id="annonces-container">
+                <div class="annonce-group space-y-4 border-b pb-4 mb-4">
+                    <input type="text" name="titre" placeholder="Titre" class="w-full p-2 border rounded-lg" required>
+                    <textarea name="description" placeholder="Description" class="w-full p-2 border rounded-lg" required></textarea>
+                    <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded-lg" required>
+                    <input type="file" name="image" class="w-full p-2 border rounded-lg" required>
+                    <select name="categorie" class="w-full p-2 border rounded-lg" required>
+                        <option value="" disabled selected>Choisir une catégorie</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.titre }}</option>
+                        {% empty %}
+                            <option disabled>Aucune catégorie disponible</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition" id="ajouter-annonce">
+                + Ajouter une autre annonce
+            </button>
+
+            <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
+                Publier
+            </button>
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+
+                        <a href="{% url 'add_category' %}" class="block text-center text-blue-500 mt-4 hover:underline">
+                ➜ Ajouter une catégorie
+            </a>
+                        {% endif %}
+
+        </form>
+    </div>
+                </div>
+</main>
+    <script>
+        document.getElementById('ajouter-annonce').addEventListener('click', function() {
+            let container = document.getElementById('annonces-container');
+            let newAnnonce = container.firstElementChild.cloneNode(true);
+            newAnnonce.querySelectorAll('input, textarea, select').forEach(field => {
+                if (field.type !== 'file') {
+                    field.value = '';
+                }
+            });
+            container.appendChild(newAnnonce);
+        });
+    </script>
+
+
+
+
+</body>
+</html>

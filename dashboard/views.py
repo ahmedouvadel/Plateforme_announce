@@ -92,29 +92,34 @@ def dashboard(request):
 def annonces(request):
     return render(request, 'annonces.html')
 
-@login_required
-@user_passes_test(is_admin)  # Seuls les admins peuvent voir cette page
-def users(request):
-    return render(request, 'users.html')
+ # Seuls les admins peuvent voir cette page
 
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from announces.models import Categories, Annonce, AnnonceStatus
 
 def est_admin(user):
-    return user.is_authenticated and user.role == "admin"
+    return user.is_authenticated and user.is_superuser
 
 @user_passes_test(est_admin)
 def valider_annonce(request, annonce_id):
     annonce = get_object_or_404(Annonce, id=annonce_id)
-    annonce.accepter()
-    return redirect('liste_annonces_admin')
+    annonce.statut = AnnonceStatus.VALIDEE
+    annonce.save()
+    messages.success(request, "Annonce validée avec succès !")
+    return redirect('dashboard')
 
 @user_passes_test(est_admin)
 def rejeter_annonce(request, annonce_id):
     annonce = get_object_or_404(Annonce, id=annonce_id)
-    annonce.rejeter()
-    return redirect('liste_annonces_admin')
+    annonce.statut = AnnonceStatus.REJETEE
+    annonce.save()
+    messages.error(request, "Annonce rejetée avec succès !")
+    return redirect('dashboard')
 
+@login_required()
 def add_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -129,22 +134,76 @@ def add_category(request):
 
     return render(request, 'add_category.html', {'form': form})
 
-@login_required  # ✅ Vérifie que l'utilisateur est connecté
-def add_annonce(request):
-    if request.method == 'POST':
-        form = AnnonceForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save(user=request.user)  # ✅ Associe l'annonce à l'utilisateur connecté
-            messages.success(request, "✅ Annonce ajoutée avec succès ! En attente de validation.")
-            return redirect('annonces_validees')  # ✅ Redirige après l'ajout
-        else:
-            messages.error(request, "❌ Une erreur s'est produite lors de l'ajout de l'annonce.")
-    else:
-        form = AnnonceForm()
 
-    return render(request, 'add_annonce.html', {'form': form})
+from django.shortcuts import render, redirect
+from announces.models import Categories, Annonce
+from django.contrib import messages
+
+
+def add_annonce(request):
+    categories = Categories.objects.all()
+
+    if request.method == "POST":
+        print(request.POST)  # ➜ Debug pour voir les valeurs envoyées
+        print(request.FILES)  # ➜ Debug pour voir les fichiers envoyés
+
+        titre = request.POST.get("titre")
+        description = request.POST.get("description")
+        prix = request.POST.get("prix")
+        image = request.FILES.get("image")
+        categorie_id = request.POST.get("categorie")
+
+        if not titre or not description or not prix or not categorie_id:
+            messages.error(request, "Tous les champs sont obligatoires.")
+        else:
+            try:
+                categorie = Categories.objects.get(id=categorie_id)
+                annonce = Annonce.objects.create(
+                    user=request.user,
+                    titre=titre,
+                    description=description,
+                    prix=prix,
+                    image=image,
+                    categorie=categorie,
+                )
+                annonce.save()
+                messages.success(request, "Annonce ajoutée avec succès !")
+                return redirect("annonces")
+            except Categories.DoesNotExist:
+                messages.error(request, "Catégorie invalide.")
+
+    return render(request, "add_annonce.html", {"categories": categories})
+
 
 @login_required
 def my_annonces(request):
     annonces = Annonce.objects.filter(user=request.user)  # ✅ Filtre par utilisateur connecté
     return render(request, 'mes_annonces.html', {'annonces': annonces})
+
+
+from django.shortcuts import render
+
+from authentication.models import User
+from announces.models import Annonce
+
+@login_required()
+def statistics_view(request):
+    total_users = User.objects.count()
+    total_clients = User.objects.filter(role="client").count()
+    total_admins = User.objects.filter(role="admin").count()
+    total_annonces = Annonce.objects.count()
+    annonces_validees = Annonce.objects.filter(statut="VALIDEE").count()
+    annonces_en_attente = Annonce.objects.filter(statut="EN_ATTENTE").count()
+    annonces_rejetees = Annonce.objects.filter(statut="REJETEE").count()
+
+    context = {
+        "total_users": total_users,
+        "total_clients": total_clients,
+        "total_admins": total_admins,
+        "total_annonces": total_annonces,
+        "annonces_validees": annonces_validees,
+        "annonces_en_attente": annonces_en_attente,
+        "annonces_rejetees": annonces_rejetees,
+    }
+
+    return render(request, "statistics.html", context)

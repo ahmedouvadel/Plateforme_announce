@@ -113,7 +113,8 @@ from django.contrib import messages
 #
 #     return render(request, 'login.html')
 
-
+from django.contrib.auth import logout
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
@@ -127,7 +128,48 @@ def custom_redirect(request):
     else:
         return redirect('add_annonce')  # Redirection par défaut
 
-def logout_view(request):
-    next_page = request.GET.get('next', '')  # Récupère l'URL précédente
-    logout(request)  # Déconnecte l'utilisateur
-    return redirect(next_page if next_page else 'home')  # Redirige vers la même page ou vers home
+def custom_logout(request):
+    logout(request)
+    # Rediriger vers une page spécifique après la déconnexion
+    return redirect(reverse('login'))  # Remplacez 'home' par le nom de votre vue d'accueil
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+@login_required
+def profile_view(request):
+    user = request.user
+    if request.method == 'POST':
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        if 'photo_user' in request.FILES:
+            user.photo_user = request.FILES['photo_user']
+        user.save()
+        messages.success(request, "✅ Profil mis à jour avec succès !")
+        return redirect('profile')
+
+    return render(request, 'profile.html', {'user': user})
+
+
+@login_required
+def delete_account(request):
+    user = request.user
+    if request.method == "POST":
+        user.delete()
+        messages.success(request, "✅ Votre compte a été supprimé avec succès.")
+        return redirect('home')
+
+    return render(request, 'delete_account.html')
+
+from django.shortcuts import render
+from .models import User
+
+def users(request):
+    users = User.objects.all()
+    return render(request, "users.html", {"users": users})

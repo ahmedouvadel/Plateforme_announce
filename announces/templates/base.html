@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <!-- Icons et Authentification -->
+      <!-- Icons et Authentification -->
     <div class="flex space-x-6 items-center font-semibold hover:cursor-pointer font-['Poppins']">
        <!-- Vérifie si l'utilisateur est connecté -->
 {% if request.user.is_authenticated %}
@@ -52,28 +52,27 @@
             <img src="{{ request.user.photo_user.url }}" alt="Photo de profil"
                  class="w-10 h-10 rounded-full object-cover border border-gray-300">
         {% else %}
-            <img src="{% static 'assets/avatar.png' %}" alt="Avatar"
+            <img src="{% static 'assets/default-user.png' %}" alt="Avatar"
                  class="w-10 h-10 rounded-full object-cover border border-gray-300">
         {% endif %}
 
         <span class="text-white font-semibold">{{ request.user.username }}</span>
 
         <!-- Bouton de déconnexion -->
-                <form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="text-gray-300 text-sm hover:underline hover:text-white">
-        🚪 Déconnexion
-    </button>
-</form>
+        <a href="{% url 'logout' %}"
+        class="text-white font-semibold hover:underline hover:text-orange-500">🔑 Deconnection </a>
     </div>
 {% else %}
     <a href="{% url 'login' %}"
        class="text-white font-semibold hover:underline hover:text-orange-500">🔑 Se connecter</a>
 {% endif %}
+{% if request.user.is_authenticated %}
 
         <div class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
             <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
         </div>
+        {% endif %}
+
     </div>
   </div>
 </nav>
@@ -85,7 +84,7 @@
 
         <!-- Bouton Espace Dashboard -->
         <div class="relative group">
-            <a href="{% url 'dashboard' %}"
+            <a href="{% url 'annonces' %}"
                class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
                 📊 Espace Dashboard
             </a>

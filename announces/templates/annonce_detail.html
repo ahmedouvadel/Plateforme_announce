@@ -71,10 +71,13 @@
     <a href="{% url 'login' %}"
        class="text-white font-semibold hover:underline hover:text-orange-500">🔑 Se connecter</a>
 {% endif %}
+{% if request.user.is_authenticated %}
 
         <div class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
             <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
         </div>
+        {% endif %}
+
     </div>
   </div>
 </nav>
@@ -82,29 +85,16 @@
     <div class="bg-white py-4 px-20 shadow-md">
         <div class="container mx-auto flex items-center justify-between">
 
-            <!-- Bouton Catégories -->
-            <div class="relative group">
-    <!-- Bouton Nos Catégories -->
-    <button class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
-        <i class="bi bi-list text-lg mr-2"></i> Nos Catégories
-    </button>
+{% if request.user.is_authenticated %}
 
-    <!-- Dropdown des Catégories avec Hover -->
-    <div class="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100">
-    <ul class="py-2">
-        {% for category in categories %}
-            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer transition duration-200">
-                <a href="{% url 'annonces_par_categorie' category.id %}" class="text-gray-800 hover:text-orange-500">
-                    {{ category.titre }}
-                </a>
-            </li>
-        {% empty %}
-            <li class="px-4 py-2 text-gray-500">Aucune catégorie disponible</li>
-        {% endfor %}
-    </ul>
-</div>
-
-</div>
+        <!-- Bouton Espace Dashboard -->
+        <div class="relative group">
+            <a href="{% url 'annonces' %}"
+               class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
+                📊 Espace Dashboard
+            </a>
+        </div>
+{% endif %}
 
 
             <!-- Boutons des catégories -->

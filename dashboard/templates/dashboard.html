@@ -20,13 +20,23 @@
     <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
 </a>
 
-{% if request.user.is_authenticated and request.user.is_superuser %}
+
         <nav class="mt-6 space-y-2 px-4 font-['Poppins'] font-medium">
+            {% if request.user.is_authenticated and request.user.is_superuser %}
             <a href="{% url 'dashboard' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/dashboard/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
                 <img src="{% static 'assets/dashboard.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Dashboard</span>
+            </a>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'statistics' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-8">
+
+                <span class="ml-3">Statistique</span>
             </a>
             {% endif %}
 
@@ -41,7 +51,7 @@
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
@@ -60,12 +70,10 @@
 {% endif %}
 
                 <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                <form method="post" action="{% url 'logout' %}" class="ml-auto">
-                    {% csrf_token %}
-                    <button type="submit" class="text-sm text-gray-500 hover:underline">Déconnexion</button>
-                </form>
+                    <a href="{% url 'profile' %}" class="ml-20 text-gray-80 font-light hover:underline">Profile</a>
+
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class=" ml-20 text-gray-800 font-light hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
@@ -73,7 +81,7 @@
     <!-- Main Content -->
     <main class="flex-1 p-6">
         {% block content %}
-            <h1 class="text-2xl font-semibold text-gray-900">Bienvenue sur le Dashboard</h1>
+            <h1 class="text-2xl pb-5 font-semibold text-gray-900">Bienvenue sur le Dashboard</h1>
         <div class="container mx-auto">
     <!-- Section des cartes statistiques -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -89,7 +97,7 @@
 
         <!-- Carte Annonces Validées -->
         <div class="bg-green-100 p-6 rounded-lg shadow-lg flex items-center">
-            <img src="{% static 'assets/valid.svg' %}" class="w-12 h-12 mr-4">
+            <img src="{% static 'assets/accepte.svg' %}" class="w-12 h-12 mr-4">
             <div>
                 <h2 class="text-green-700 text-xl font-semibold">Annonces Validées</h2>
                 <p class="text-green-900 text-2xl font-bold">{{ annonces_validees }}</p>
@@ -98,7 +106,7 @@
 
         <!-- Carte Annonces En Attente -->
         <div class="bg-yellow-100 p-6 rounded-lg shadow-lg flex items-center">
-            <img src="{% static 'assets/pending.svg' %}" class="w-12 h-12 mr-4">
+            <img src="{% static 'assets/attende.svg' %}" class="w-12 h-12 mr-4">
             <div>
                 <h2 class="text-yellow-700 text-xl font-semibold">En Attente</h2>
                 <p class="text-yellow-900 text-2xl font-bold">{{ annonces_en_attente }}</p>
@@ -107,7 +115,7 @@
 
         <!-- Carte Annonces Rejetées -->
         <div class="bg-red-100 p-6 rounded-lg shadow-lg flex items-center">
-            <img src="{% static 'assets/rejected.svg' %}" class="w-12 h-12 mr-4">
+            <img src="{% static 'assets/rejete.svg' %}" class="w-12 h-12 mr-4">
             <div>
                 <h2 class="text-red-700 text-xl font-semibold">Annonces Rejetées</h2>
                 <p class="text-red-900 text-2xl font-bold">{{ annonces_rejetees }}</p>
@@ -141,48 +149,59 @@
                     <div class="relative">
                     <input type="text" placeholder="🔍 Rechercher..." class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div href="{% url 'add_annonce' %}"
-                   class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 transition">
-                    + Ajouter une annonce
+                <div
+                   class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-1 hover:scale-110">
+                   <a href="{% url 'add_annonce' %}" > + Ajouter une annonce </a>
                 </div>
                 </div>
             </div>
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 p-2">Titre</th>
-                    <th class="border border-gray-300 p-2">Utilisateur</th>
-                    <th class="border border-gray-300 p-2">Statut</th>
-                    <th class="border border-gray-300 p-2">Prix</th>
-                    <th class="border border-gray-300 p-2">Actions</th>
-                </tr>
-            </thead>
-          <tbody id="annonces-body">
-    {% for annonce in annonces %}
-    <tr class="text-center hover:bg-gray-100 transition">
-        <td class="border border-gray-300 p-2">{{ annonce.titre }}</td>
-        <td class="border border-gray-300 p-2">{{ annonce.user.username }}</td>
-        <td class="border border-gray-300 p-2">
-            <select class="p-1 border rounded bg-white"
-                    onchange="changerStatut({{ annonce.id }}, this.value)">
-                <option value="VALIDEE" {% if annonce.statut == "VALIDEE" %}selected{% endif %}>Validée</option>
-                <option value="EN_ATTENTE" {% if annonce.statut == "EN_ATTENTE" %}selected{% endif %}>En Attente</option>
-                <option value="REJETEE" {% if annonce.statut == "REJETEE" %}selected{% endif %}>Rejetée</option>
-            </select>
-        </td>
-        <td class="border border-gray-300 p-2">{{ annonce.prix }} MRU</td>
-        <td class="border border-gray-300 p-2">
-            <a href="{% url 'annonce_detail' annonce.id %}" class="text-blue-500 hover:underline">Voir</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="5" class="text-center text-gray-500 p-4">Aucune annonce trouvée</td>
-    </tr>
-    {% endfor %}
-</tbody>
+        <h1 class="text-2xl font-semibold text-gray-900">Liste des Annonces</h1>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="border border-gray-300 p-2">Titre</th>
+                        <th class="border border-gray-300 p-2">Utilisateur</th>
+                        <th class="border border-gray-300 p-2">Statut</th>
+                        <th class="border border-gray-300 p-2">Prix</th>
+                        <th class="border border-gray-300 p-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for annonce in annonces %}
+                    <tr class="text-center hover:bg-gray-100 transition">
+                        <td class="border border-gray-300 p-2">{{ annonce.titre }}</td>
+                        <td class="border border-gray-300 p-2">{{ annonce.user.username }}</td>
+                            <td class="border border-gray-300 p-2 flex justify-center gap-2">
+                                <!-- Bouton de validation -->
+                                <a href="{% url 'valider_annonce' annonce.id %}" class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition">
+                                    Validée
+                                </a>
 
-        </table>
+                                <!-- Bouton de mise en attente -->
+                                <button class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-700 transition" onclick="changerStatut({{ annonce.id }}, 'EN_ATTENTE')">
+                                    En Attente
+                                </button>
+
+                                <!-- Bouton de rejet -->
+                                <a href="{% url 'rejeter_annonce' annonce.id %}" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition">
+                                    Rejetée
+                                </a>
+                            </td>
+
+                        <td class="border border-gray-300 p-2">{{ annonce.prix }} MRU</td>
+                        <td class="border border-gray-300 p-2">
+                            <a href="{% url 'annonce_detail' annonce.id %}" class="text-blue-500 hover:underline">Voir</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-gray-500 p-4">Aucune annonce trouvée</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

@@ -31,7 +31,15 @@
                 <span class="ml-3">Dashboard</span>
             </a>
             {% endif %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'statistics' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
 
+                <span class="ml-3">Statistique</span>
+            </a>
+            {% endif %}
             <a href="{% url 'annonces' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
@@ -43,7 +51,7 @@
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
@@ -54,20 +62,17 @@
             {% if request.user.is_authenticated %}
                 <!-- Vérification si l'utilisateur a une photo -->
 {% if request.user.photo_user and request.user.photo_user.url %}
-    <img src="{{ request.user.photo_user.url }}" alt="Profil"
+    <img href="{% url 'profile' %}" src="{{ request.user.photo_user.url }}" alt="Profil"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% else %}
-    <img src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+    <img href="{% url 'profile' %}" src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% endif %}
 
-                <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                <form method="post" action="{% url 'logout' %}" class="ml-auto">
-                    {% csrf_token %}
-                    <button type="submit" class="text-sm text-gray-500 hover:underline">Déconnexion</button>
-                </form>
+                <span  class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'profile' %}" class="ml-20 text-sm text-gray-500 hover:underline">Profile</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
@@ -87,21 +92,21 @@
                     </div>
                 </div>
                 <div class="bg-green-100 p-6 rounded-lg shadow-lg flex items-center hover:shadow-2xl transition">
-                    <img src="{% static 'assets/valid.svg' %}" class="w-12 h-12 mr-4">
+                    <img src="{% static 'assets/accepte.svg' %}" class="w-12 h-12 mr-4">
                     <div>
                         <h2 class="text-green-700 text-xl font-semibold">Annonces Validées</h2>
                         <p class="text-green-900 text-2xl font-bold">{{ annonces_validees }}</p>
                     </div>
                 </div>
                 <div class="bg-yellow-100 p-6 rounded-lg shadow-lg flex items-center hover:shadow-2xl transition">
-                    <img src="{% static 'assets/pending.svg' %}" class="w-12 h-12 mr-4">
+                    <img src="{% static 'assets/attende.svg' %}" class="w-12 h-12 mr-4">
                     <div>
                         <h2 class="text-yellow-700 text-xl font-semibold">En Attente</h2>
                         <p class="text-yellow-900 text-2xl font-bold">{{ annonces_en_attente }}</p>
                     </div>
                 </div>
                 <div class="bg-red-100 p-6 rounded-lg shadow-lg flex items-center hover:shadow-2xl transition">
-                    <img src="{% static 'assets/rejected.svg' %}" class="w-12 h-12 mr-4">
+                    <img src="{% static 'assets/rejete.svg' %}" class="w-12 h-12 mr-4">
                     <div>
                         <h2 class="text-red-700 text-xl font-semibold">Annonces Rejetées</h2>
                         <p class="text-red-900 text-2xl font-bold">{{ annonces_rejetees }}</p>
@@ -115,12 +120,12 @@
                                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Vos annonces</h2>
 
                 <div class="flex flex-row justify-center items-center gap-5">
-                    <div class="relative">
-                    <input type="text" placeholder="🔍 Rechercher..." class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <div class="relative ">
+                    <input type="text" placeholder="🔍 Rechercher..." class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 ">
                 </div>
                 <div href="{% url 'add_annonce' %}"
-                   class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 transition">
-                    + Ajouter une annonce
+                   class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-1 hover:scale-110">
+                    <a href="{% url 'add_annonce' %}" > + Ajouter une annonce </a>
                 </div>
                 </div>
             </div>

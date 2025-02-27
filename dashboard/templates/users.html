@@ -11,6 +11,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Montserrat font -->
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+        function deleteUser(userId) {
+            if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+                fetch(`/delete-user/${userId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Utilisateur supprimé avec succès");
+                        location.reload();
+                    } else {
+                        alert("Erreur lors de la suppression de l'utilisateur");
+                    }
+                })
+                .catch(error => console.error("Erreur:", error));
+            }
+        }
+    </script>
 </head>
 <body class="bg-gray-100 flex">
 
@@ -28,7 +50,15 @@
                 <img src="{% static 'assets/dashboard.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Dashboard</span>
             </a>
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'statistics' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
 
+                <span class="ml-3">Statistique</span>
+            </a>
+            {% endif %}
             <a href="{% url 'annonces' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600 hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
@@ -40,7 +70,7 @@
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
@@ -49,29 +79,84 @@
         <!-- Profil utilisateur -->
         <div class="p-4 border-t border-gray-300 flex items-center mt-auto">
             {% if request.user.is_authenticated %}
-               {% if request.user.photo_user and request.user.photo_user.url %}
-    <img src="{{ request.user.photo_user.url }}" alt="Profil"
+                <!-- Vérification si l'utilisateur a une photo -->
+{% if request.user.photo_user and request.user.photo_user.url %}
+    <img href="{% url 'profile' %}" src="{{ request.user.photo_user.url }}" alt="Profil"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% else %}
-    <img src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+    <img href="{% url 'profile' %}" src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% endif %}
-                <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                <form method="post" action="{% url 'logout' %}" class="ml-auto">
-                    {% csrf_token %}
-                    <button type="submit" class="text-sm text-gray-500 hover:underline">Déconnexion</button>
-                </form>
+
+                <span  class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'profile' %}" class="ml-20 text-sm text-gray-500 hover:underline">Profile</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
-        {% block content %}
-            <h1 class="text-2xl font-semibold text-gray-900">Users</h1>
-        {% endblock %}
+
+
+         <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Liste des Utilisateurs</h2>
+
+        <table class="w-full border-collapse border border-gray-300 bg-white">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border border-gray-300 p-2">Photo</th>
+                    <th class="border border-gray-300 p-2">Nom</th>
+                    <th class="border border-gray-300 p-2">Email</th>
+                    <th class="border border-gray-300 p-2">Rôle</th>
+                    <th class="border border-gray-300 p-2">Adresse</th>
+                    <th class="border border-gray-300 p-2">Téléphone</th>
+                    <th class="border border-gray-300 p-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr class="text-center hover:bg-gray-100 transition">
+                    <td class="border border-gray-300 p-2">
+                        {% if user.photo_user %}
+                            <img src="{{ user.photo_user.url }}" alt="Photo de {{ user.username }}" class="w-10 h-10 rounded-full object-cover border border-gray-300">
+                        {% else %}
+                            <img src="{% static 'assets/avatar.png' %}" alt="Avatar" class="w-10 h-10 rounded-full object-cover border border-gray-300">
+                        {% endif %}
+                    </td>
+                    <td class="border border-gray-300 p-2">{{ user.username }}</td>
+                    <td class="border border-gray-300 p-2">{{ user.email }}</td>
+                    <td class="border border-gray-300 p-2">{{ user.role }}</td>
+                    <td class="border border-gray-300 p-2">
+                        {% if user.client_info.adresse %}
+                            {{ user.client_info.adresse }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="border border-gray-300 p-2">
+                        {% if user.client_info.telephone %}
+                            {{ user.client_info.telephone }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="border border-gray-300 p-2">
+                        <button onclick="deleteUser({{ user.id }})" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition">
+                            Supprimer
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-gray-500 p-4">Aucun utilisateur trouvé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     </main>
 
 </body>
