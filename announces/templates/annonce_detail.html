@@ -132,6 +132,26 @@
                 <p class="font-semibold text-gray-900 flex items-center gap-2 mt-2">👀 Nombre de vues : <span class="font-light">{{ annonce.views }}</span></p>
             </div>
 
+            <div class="bg-white p-4 shadow-md rounded-lg flex items-center gap-4">
+    {% if vendeur.photo_user %}
+        <img src="{{ vendeur.photo_user.url }}" alt="Photo de {{ vendeur.username }}"
+             class="w-16 h-16 rounded-full object-cover border border-gray-300">
+    {% else %}
+        <img src="{% static 'assets/avatar.png' %}" alt="Avatar"
+             class="w-16 h-16 rounded-full object-cover border border-gray-300">
+    {% endif %}
+
+    <div>
+        <p class="text-lg font-semibold text-gray-900">👤 Vendeur : {{ vendeur.username }}</p>
+        {% if client_info.telephone %}
+            <p class="text-gray-700">📞 Téléphone : {{ client_info.telephone }}</p>
+        {% else %}
+            <p class="text-gray-500 italic">📞 Téléphone non renseigné</p>
+        {% endif %}
+    </div>
+</div>
+
+
             <div class="flex flex-col gap-4 mt-4">
                 <button class="bg-[#E09351] text-white  px-6 py-3 rounded-lg flex items-center gap-2 justify-center shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 hover:bg-gray-900">
                         📞 Contacter le vendeur
@@ -184,57 +204,6 @@
         });
     }
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    var slidesCount = document.querySelectorAll('.swiper-slide').length;
-$(document).ready(function() {
-    // Intercepter la soumission du formulaire
-    $("form").submit(function(e) {
-        e.preventDefault();  // Empêcher le rechargement de la page
-
-        let formData = $(this).serialize();  // Récupérer les données du formulaire
-
-        $.ajax({
-            url: "{% url 'filter_annonces' %}",
-            type: "GET",
-            data: formData,
-            headers: { "X-Requested-With": "XMLHttpRequest" }, // Marque la requête comme AJAX
-            success: function(response) {
-                $("#annonces-container").html(response);  // Mettre à jour les annonces
-            },
-            error: function() {
-                alert("Erreur lors du filtrage des annonces.");
-            }
-        });
-    });
-});
-</script>
-    <script>
-        console.log(Swiper);
-
-document.getElementById("add-favorite").addEventListener("click", function() {
-    alert("Annonce ajoutée aux favoris !");
-});
-
-
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: slidesCount < 3 ? slidesCount : 3, // Ajuste si moins de 3 slides
-        spaceBetween: 20,
-        loop: slidesCount > 1, // Désactive le loop si 1 seule annonce
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
-});
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
 </body>
 

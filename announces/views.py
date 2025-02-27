@@ -76,11 +76,19 @@ class FilterAnnoncesView(View):
 def annonce_detail(request, annonce_id):
     annonce = get_object_or_404(Annonce, id=annonce_id)
 
-    # Exemple : Récupérer le nombre de vues (implique une colonne `views` dans le modèle)
+    # Incrémentation du nombre de vues
     annonce.views += 1
     annonce.save()
 
-    return render(request, 'annonce_detail.html', {'annonce': annonce})
+    # Récupération des informations du vendeur
+    vendeur = annonce.user  # Le propriétaire de l'annonce
+    client_info = getattr(vendeur, 'client_info', None)  # Récupérer ses infos client
+
+    return render(request, 'annonce_detail.html', {
+        'annonce': annonce,
+        'vendeur': vendeur,
+        'client_info': client_info,
+    })
 
 @login_required
 def mes_favoris(request):
