@@ -170,6 +170,7 @@ def delete_account(request):
 from django.shortcuts import render
 from .models import User
 
+@login_required
 def users(request):
     users = User.objects.all()
     return render(request, "users.html", {"users": users})

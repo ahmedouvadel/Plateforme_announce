@@ -36,6 +36,8 @@
             <a href="{% url 'statistics' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
+
                 <span class="ml-3">Statistique</span>
             </a>
             {% endif %}
@@ -45,12 +47,18 @@
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
 
 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
@@ -69,9 +77,9 @@
 {% endif %}
 
                 <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                    <a href="{% url 'logout' %}" class="text-gray-800 font-semibold hover:underline">Se Dconnecter</a>
+                    <a href="{% url 'logout' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se Dconnecter</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
@@ -80,7 +88,7 @@
     <main class="flex-1 p-6">
 
   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Mon Profil</h2>
+        <h2 class="text-3xl font-light text-gray-900 mb-6 text-center">Mon Profil</h2>
 
         {% if messages %}
             {% for message in messages %}
@@ -103,43 +111,54 @@
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="username" class="block text-gray-700 font-medium">Nom d'utilisateur</label>
-                    <input type="text" name="username" value="{{ user.username }}" class="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                </div>
+                    <label for="username" class="block text-gray-700 font-light">Nom d'utilisateur</label>
+<div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/user.svg' %}" class="w-6 h-6" alt="User Icon">
+                        <input type="text" name="username" value="{{ user.username }}" class="bg-transparent outline-none w-full ml-3 text-gray-700" >
+                    </div>                </div>
 
                 <div>
-                    <label for="email" class="block text-gray-700 font-medium">Email</label>
-                    <input type="email" name="email" value="{{ user.email }}" class="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                </div>
+                    <label for="email" class="block text-gray-700 font-light">Email</label>
+<div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/email.svg' %}" class="w-6 h-6" alt="Email Icon">
+                        <input type="email" name="email" value="{{ user.email }}" class="bg-transparent outline-none w-full ml-3 text-gray-700" >
+                    </div>                </div>
             </div>
 
             <div>
-                <label for="photo_user" class="block text-gray-700 font-medium">Photo de profil</label>
-                <input type="file" name="photo_user" class="w-full p-3 border rounded-lg shadow-sm">
-            </div>
+                <label for="photo_user" class="block text-gray-700 font-light">Photo de profil</label>
+<div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                    <img src="{% static 'assets/photo.svg' %}" class="w-6 h-6" alt="Photo Icon">
+                    <input type="file" name="photo_user" class="ml-3 text-gray-700">
+                </div>            </div>
 
             {% if user.role == "client" %}
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="adresse" class="block text-gray-700 font-medium">Adresse</label>
-                    <input type="text" name="adresse" value="{{ user.client_info.adresse }}" class="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                    <label for="adresse" class="block text-gray-700 font-light">Adresse</label>
+ <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/home.svg' %}" class="w-6 h-6" alt="Email Icon">
+                        <input type="email" name="email" value="{{ user.client_info.adresse }}" class="bg-transparent outline-none w-full ml-3 text-gray-700" >
+                    </div>
                 </div>
 
                 <div>
-                    <label for="telephone" class="block text-gray-700 font-medium">Téléphone</label>
-                    <input type="text" name="telephone" value="{{ user.client_info.telephone }}" class="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-                </div>
+                    <label for="telephone" class="block text-gray-700 font-light">Téléphone</label>
+ <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <img src="{% static 'assets/phone.svg' %}" class="w-6 h-6" alt="Email Icon">
+                        <input type="email" name="email" value="{{ user.client_info.telephone }}" class="bg-transparent outline-none w-full ml-3 text-gray-700" >
+                    </div>                </div>
             </div>
             {% endif %}
 
-            <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition">
+            <button type="submit" class="w-full bg-[#E09351] text-white p-3 rounded-lg font-semibold shadow-2xl hover:bg-gray-900 transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
                 Mettre à jour
             </button>
         </form>
 
         <form method="post" action="{% url 'delete_account' %}" class="mt-4">
             {% csrf_token %}
-            <button type="submit" class="w-full bg-red-500 text-white p-3 rounded-lg font-semibold shadow-md hover:bg-red-600 transition">
+            <button type="submit" class="w-full bg-red-500 text-white p-3 rounded-lg font-semibold shadow-2xl hover:bg-red-600 transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
                 Supprimer mon compte
             </button>
         </form>

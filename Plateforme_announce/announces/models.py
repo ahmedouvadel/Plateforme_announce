@@ -12,6 +12,10 @@ class AnnonceStatus(models.TextChoices):
     VALIDEE = 'VALIDEE', 'Validée'
     REJETEE = 'REJETEE', 'Rejetée'
 
+class AnnoncePaiementStatus(models.TextChoices):
+    NON_PAYEE = 'NON_PAYEE', 'Non Payée'
+    PAYEE = 'PAYEE', 'Payée'
+
 class Annonce(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,  # ✅ Remplace l'import direct de User
@@ -28,8 +32,37 @@ class Annonce(models.Model):
         default=AnnonceStatus.EN_ATTENTE
     )
     categorie = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    is_paid = models.BooleanField(default=False)
+    paiement_statut = models.CharField(
+        max_length=10,
+        choices=[("NON_PAYEE", "Non Payée"), ("PAYEE", "Payée")],
+        default="NON_PAYEE"
+    )
     views = models.IntegerField(default=0)
+    date = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Date et heure de soumission de l'annonce."
+    )
 
     def __str__(self):
         return f"{self.titre} - {self.user.username}"
+
+class Favori(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="favoris"
+    )
+    annonce = models.ForeignKey(
+        Annonce,
+        on_delete=models.CASCADE,
+        related_name="favoris"
+    )
+    date_ajout = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'annonce')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.annonce.titre}"
+
+

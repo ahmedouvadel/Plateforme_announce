@@ -1,5 +1,6 @@
 
     <div id="annonces-container" class="flex flex-wrap w-full justify-start px-20 text-black font-['Poppins'] gap-8">
+
       {% for annonce in annonces %}
         <a href="{% url 'annonce_detail' annonce.id %}" class="relative flex flex-col items-center h-auto gap-3 px-5 py-4 w-[18rem] bg-white rounded-2xl shadow-lg transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 hover:border-2 hover:border-[#E09351]">
           {% if annonce.image %}
@@ -12,7 +13,7 @@
             <p class="font-semibold">Titre : <span class="font-light">{{ annonce.titre }}</span></p>
             <p class="font-semibold">Prix : <span class="font-light">{{ annonce.prix }} €</span></p>
             <p class="font-semibold">Catégorie : <span class="font-light">{{ annonce.categorie.titre }}</span></p>
-            <p class="font-semibold">Description : <span class="font-light">{{ annonce.description }}</span></p>
+            <p class="font-semibold">Vue : <span class="font-light">{{ annonce.views }}</span></p>
 
             <span class="mt-3 px-4 py-2 bg-[#E09351] text-white text-sm rounded-md shadow-md transition-all hover:bg-[#D08040]">Voir détail</span>
           </div>

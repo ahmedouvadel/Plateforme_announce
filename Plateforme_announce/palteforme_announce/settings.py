@@ -68,7 +68,6 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR,'theme', 'templates'),
                  os.path.join(BASE_DIR, 'announces', 'templates')  # Ajout du dossier des templates de announces
                  ],  # Ajout du dossier templates
-
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -91,7 +90,7 @@ TAILWIND_APP_NAME = 'theme'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plateform_announce',
+        'NAME': 'reso',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',  # Serveur de la base de données

@@ -6,6 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="list user and statu annonce and view profil with apdate and delet, and formulair annonce and categorye with creat statistic for data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonce_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonce_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/filter.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/filter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/liste_annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/liste_annonces.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/authentication/migrations/0003_remove_user_role.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/authentication/migrations/0003_remove_user_role.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/authentication/migrations/0004_user_role.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/authentication/migrations/0004_user_role.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/add_annonce.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/add_annonce.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/add_category.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/add_category.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/annonces.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/delete_account.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/delete_account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/statistics.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/statistics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plateforme_announce/venv/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/venv/pyvenv.cfg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,21 +44,27 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "derwashler"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;derwashler&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ahmedouvadel/Plateforme_announce.git",
-    "accountId": "f199a14c-4779-4540-bdd5-ede61b9737fa"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ahmedouvadel/Plateforme_announce.git&quot;,
+    &quot;accountId&quot;: &quot;f199a14c-4779-4540-bdd5-ede61b9737fa&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -45,18 +74,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "01b71275",
-    "last_opened_file_path": "C:/Users/hpi7/Plateforme_announce",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;68006055&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hpi7/Plateforme_announce&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Ahmedou\PycharmProjects\plateforme_announce\palteforme_announce\theme\templates" />
@@ -92,6 +121,17 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="list user and statu annonce and view profil with apdate and delet, and formulair annonce and categorye with creat statistic for data" />

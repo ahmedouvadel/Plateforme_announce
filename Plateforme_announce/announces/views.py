@@ -1,8 +1,10 @@
 from django.http import JsonResponse
 from django.views import View
 from django.shortcuts import get_object_or_404
-from .models import Annonce, AnnonceStatus, Categories
+from .models import Annonce, AnnonceStatus, Categories, Favori
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -21,7 +23,7 @@ class HomeView(View):
     def get(self, request):
         categories = Categories.objects.all()
         annonces = Annonce.objects.filter(statut=AnnonceStatus.VALIDEE)
-        annonces_payees = Annonce.objects.filter(is_paid=True, statut="VALIDEE")
+        annonces_payees = Annonce.objects.filter(paiement_statut="PAYEE",statut="VALIDEE")
         return render(request, 'base.html', {'categories': categories, 'annonces': annonces, 'annonces_payees': annonces_payees})
 
 
@@ -74,8 +76,40 @@ class FilterAnnoncesView(View):
 def annonce_detail(request, annonce_id):
     annonce = get_object_or_404(Annonce, id=annonce_id)
 
-    # Exemple : Récupérer le nombre de vues (implique une colonne `views` dans le modèle)
+    # Incrémentation du nombre de vues
     annonce.views += 1
     annonce.save()
 
-    return render(request, 'annonce_detail.html', {'annonce': annonce})
+    # Récupération des informations du vendeur
+    vendeur = annonce.user  # Le propriétaire de l'annonce
+    client_info = getattr(vendeur, 'client_info', None)  # Récupérer ses infos client
+
+    return render(request, 'annonce_detail.html', {
+        'annonce': annonce,
+        'vendeur': vendeur,
+        'client_info': client_info,
+    })
+
+@login_required
+def mes_favoris(request):
+    favoris = Favori.objects.filter(user=request.user).select_related('annonce')
+    return render(request, 'favoris.html', {'favoris': favoris})
+
+@login_required
+def ajouter_favori(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    # Vérifier si l'annonce est déjà dans les favoris de l'utilisateur
+    favori, created = Favori.objects.get_or_create(user=request.user, annonce=annonce)
+
+    if created:
+        return JsonResponse({'success': True, 'message': 'Annonce ajoutée aux favoris.'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Annonce déjà dans vos favoris.'}, status=400)
+
+@login_required
+def retirer_favori(request, annonce_id):
+    favori = get_object_or_404(Favori, user=request.user, annonce_id=annonce_id)
+    favori.delete()
+    return JsonResponse({'success': True, 'message': 'Favori supprimé'})
+

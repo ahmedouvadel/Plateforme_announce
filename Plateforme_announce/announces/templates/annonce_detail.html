@@ -71,10 +71,13 @@
     <a href="{% url 'login' %}"
        class="text-white font-semibold hover:underline hover:text-orange-500">🔑 Se connecter</a>
 {% endif %}
+{% if request.user.is_authenticated %}
 
-        <div class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
+        <a href="{% url 'mes_favoris' %}" class="group relative text-gray-800 text-white transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">⭐ Favoris
             <div class="absolute left-0 bottom-0 w-0 h-[2px] bg-[#E09351] transition-all duration-500 group-hover:w-full"></div>
-        </div>
+        </a>
+        {% endif %}
+
     </div>
   </div>
 </nav>
@@ -82,29 +85,16 @@
     <div class="bg-white py-4 px-20 shadow-md">
         <div class="container mx-auto flex items-center justify-between">
 
-            <!-- Bouton Catégories -->
-            <div class="relative group">
-    <!-- Bouton Nos Catégories -->
-    <button class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
-        <i class="bi bi-list text-lg mr-2"></i> Nos Catégories
-    </button>
+{% if request.user.is_authenticated %}
 
-    <!-- Dropdown des Catégories avec Hover -->
-    <div class="absolute left-0 mt-2 w-56 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100">
-    <ul class="py-2">
-        {% for category in categories %}
-            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer transition duration-200">
-                <a href="{% url 'annonces_par_categorie' category.id %}" class="text-gray-800 hover:text-orange-500">
-                    {{ category.titre }}
-                </a>
-            </li>
-        {% empty %}
-            <li class="px-4 py-2 text-gray-500">Aucune catégorie disponible</li>
-        {% endfor %}
-    </ul>
-</div>
-
-</div>
+        <!-- Bouton Espace Dashboard -->
+        <div class="relative group">
+            <a href="{% url 'annonces' %}"
+               class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">
+                📊 Espace Dashboard
+            </a>
+        </div>
+{% endif %}
 
 
             <!-- Boutons des catégories -->
@@ -142,13 +132,37 @@
                 <p class="font-semibold text-gray-900 flex items-center gap-2 mt-2">👀 Nombre de vues : <span class="font-light">{{ annonce.views }}</span></p>
             </div>
 
+            <div class="bg-white p-4 shadow-md rounded-lg flex items-center gap-4">
+    {% if vendeur.photo_user %}
+        <img src="{{ vendeur.photo_user.url }}" alt="Photo de {{ vendeur.username }}"
+             class="w-16 h-16 rounded-full object-cover border border-gray-300">
+    {% else %}
+        <img src="{% static 'assets/avatar.png' %}" alt="Avatar"
+             class="w-16 h-16 rounded-full object-cover border border-gray-300">
+    {% endif %}
+
+    <div>
+        <p class="text-lg font-semibold text-gray-900">👤 Vendeur : {{ vendeur.username }}</p>
+        {% if client_info.telephone %}
+            <p class="text-gray-700">📞 Téléphone : {{ client_info.telephone }}</p>
+        {% else %}
+            <p class="text-gray-500 italic">📞 Téléphone : 22634342 </p>
+        {% endif %}
+    </div>
+</div>
+
+
             <div class="flex flex-col gap-4 mt-4">
                 <button class="bg-[#E09351] text-white  px-6 py-3 rounded-lg flex items-center gap-2 justify-center shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 hover:bg-gray-900">
                         📞 Contacter le vendeur
                 </button>
-                <button class="bg-teal-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 justify-center hover:bg-teal-800 rounded-2xl shadow-md flex items-center gap-2 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 ">
-                        ⭐ Ajouter aux favoris
-                </button>
+                {% if request.user.is_authenticated %}
+
+               <button id="favori-btn" class="bg-teal-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 justify-center hover:bg-teal-800 rounded-2xl shadow-md transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 " onclick="ajouterFavori('{{ annonce.id }}')">
+    ⭐ Ajouter aux favoris
+</button>
+                {% endif %}
+
             </div>
         </div>
     </div>
@@ -159,62 +173,37 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-4 mt-8 ">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; 2024 - Plateforme Annonces</p>
+            <p>&copy; 2024 - Axam Plateforme </p>
         </div>
     </footer>
 <!-- Scripts JavaScript de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    var slidesCount = document.querySelectorAll('.swiper-slide').length;
-$(document).ready(function() {
-    // Intercepter la soumission du formulaire
-    $("form").submit(function(e) {
-        e.preventDefault();  // Empêcher le rechargement de la page
+  <script>
+    function ajouterFavori(annonceId) {
+        let btn = document.getElementById('favori-btn');
+        btn.disabled = true;
+        btn.innerText = "⏳ Ajout en cours...";
 
-        let formData = $(this).serialize();  // Récupérer les données du formulaire
-
-        $.ajax({
-            url: "{% url 'filter_annonces' %}",
-            type: "GET",
-            data: formData,
-            headers: { "X-Requested-With": "XMLHttpRequest" }, // Marque la requête comme AJAX
-            success: function(response) {
-                $("#annonces-container").html(response);  // Mettre à jour les annonces
-            },
-            error: function() {
-                alert("Erreur lors du filtrage des annonces.");
+        fetch(`/ajouter_favori/${annonceId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                btn.innerText = "✅ Ajouté aux favoris";
+                btn.classList.add("bg-green-600");
+                btn.classList.remove("bg-teal-700", "hover:bg-teal-800");
+            } else {
+                btn.innerText = "⭐ Ajouter aux favoris";
+                btn.disabled = false;
+                alert('Erreur lors de l\'ajout aux favoris.');
             }
         });
-    });
-});
+    }
 </script>
-    <script>
-        console.log(Swiper);
-
-document.getElementById("add-favorite").addEventListener("click", function() {
-    alert("Annonce ajoutée aux favoris !");
-});
-
-
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: slidesCount < 3 ? slidesCount : 3, // Ajuste si moins de 3 slides
-        spaceBetween: 20,
-        loop: slidesCount > 1, // Désactive le loop si 1 seule annonce
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-    });
-});
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
 </body>
 

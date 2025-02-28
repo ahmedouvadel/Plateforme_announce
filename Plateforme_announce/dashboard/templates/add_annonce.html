@@ -15,7 +15,7 @@
 <body class="bg-gray-100 flex">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+      <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
         <a href="{% url 'home' %}" class="flex items-center justify-center p-6 border-b border-gray-300">
     <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
 </a>
@@ -35,22 +35,30 @@
             <a href="{% url 'statistics' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
+
                 <span class="ml-3">Statistique</span>
             </a>
             {% endif %}
-
             <a href="{% url 'annonces' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
-
 {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
+
+
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
@@ -61,17 +69,17 @@
             {% if request.user.is_authenticated %}
                 <!-- Vérification si l'utilisateur a une photo -->
 {% if request.user.photo_user and request.user.photo_user.url %}
-    <img src="{{ request.user.photo_user.url }}" alt="Profil"
+    <img href="{% url 'profile' %}" src="{{ request.user.photo_user.url }}" alt="Profil"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% else %}
-    <img src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+    <img href="{% url 'profile' %}" src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
          class="w-10 h-10 rounded-full object-cover border border-gray-300">
 {% endif %}
 
-                <span class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                    <a href="{% url 'logout' %}" class="text-gray-800 font-semibold hover:underline">Se Dconnecter</a>
+                <span  class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'profile' %}" class="ml-20 text-sm text-gray-500 hover:underline">Profile</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
@@ -81,8 +89,8 @@
 
 <!-- Amélioration du template add_annonce.html pour ajouter plusieurs annonces à la fois -->
 
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Ajouter des Annonces</h2>
+    <div class="flex flex-col px-20 py-5 bg-white rounded-2xl shadow-2xl w-full max-w-4xl">
+        <h2 class="text-3xl font-light text-gray-900 mb-6 text-center">Ajouter des Annonces</h2>
 
         {% if messages %}
             {% for message in messages %}
@@ -96,31 +104,49 @@
             {% csrf_token %}
             <div id="annonces-container">
                 <div class="annonce-group space-y-4 border-b pb-4 mb-4">
-                    <input type="text" name="titre" placeholder="Titre" class="w-full p-2 border rounded-lg" required>
-                    <textarea name="description" placeholder="Description" class="w-full p-2 border rounded-lg" required></textarea>
-                    <input type="number" name="prix" placeholder="Prix" class="w-full p-2 border rounded-lg" required>
-                    <input type="file" name="image" class="w-full p-2 border rounded-lg" required>
-                    <select name="categorie" class="w-full p-2 border rounded-lg" required>
-                        <option value="" disabled selected>Choisir une catégorie</option>
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                        <input type="text" name="titre" placeholder="Titre" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    </div>
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                                            <textarea name="description" placeholder="Description" class="bg-transparent outline-none w-full ml-3 text-gray-700" required></textarea>
+
+                    </div>
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                                            <input type="number" name="prix" placeholder="Prix" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+
+                    </div>
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                                            <img src="{% static 'assets/photo.svg' %}" class="w-6 h-6" alt="Photo Icon">
+
+                                            <input type="file" name="image" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+
+                    </div>
+                    <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
+                                            <select name="categorie" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                                                <option value="" disabled selected>Choisir une catégorie</option>
                         {% for cat in categories %}
                             <option value="{{ cat.id }}">{{ cat.titre }}</option>
                         {% empty %}
                             <option disabled>Aucune catégorie disponible</option>
                         {% endfor %}
                     </select>
+                    </div>
+
                 </div>
             </div>
-
-            <button type="button" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition" id="ajouter-annonce">
-                + Ajouter une autre annonce
-            </button>
-
-            <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
+            <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d">
                 Publier
             </button>
+            <button type="button" class="w-full bg-[#E09351] text-white p-3 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-1 hover:scale-3d" id="ajouter-annonce">
+                + Ajouter une autre annonce
+            </button>
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+
                         <a href="{% url 'add_category' %}" class="block text-center text-blue-500 mt-4 hover:underline">
                 ➜ Ajouter une catégorie
             </a>
+                        {% endif %}
+
         </form>
     </div>
                 </div>

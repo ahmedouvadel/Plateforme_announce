@@ -36,6 +36,8 @@
             <a href="{% url 'statistics' %}"
                class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                       {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
+
                 <span class="ml-3">Statistique</span>
             </a>
             {% endif %}
@@ -45,18 +47,24 @@
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
-
 {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
+
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
-                    <img src="{% static 'icons/users.svg' %}" class="w-6 h-6">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
                     <span class="ml-3">Utilisateurs</span>
                 </a>
             {% endif %}
         </nav>
 
-        <!-- Profil utilisateur -->
+         <!-- Profil utilisateur -->
         <div class="p-4 border-t border-gray-300 flex items-center mt-auto">
             {% if request.user.is_authenticated %}
                 <!-- Vérification si l'utilisateur a une photo -->
@@ -69,24 +77,24 @@
 {% endif %}
 
                 <span  class="ml-3 text-gray-800">{{ request.user.username }}</span>
-                    <a href="{% url 'profile' %}" class="text-gray-800 font-semibold hover:underline">Profile</a>
+                    <a href="{% url 'profile' %}" class="ml-20 text-sm text-gray-500 hover:underline">Profile</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-gray-800 font-semibold hover:underline">Se connecter</a>
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
             {% endif %}
         </div>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-6">
+        <h2 class="text-2xl pb-5 font-semibold text-gray-900">Statistiques Générales</h2>
 
 
 <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-3xl font-semibold text-gray-900 mb-6 text-center">Statistiques Générales</h2>
 
         <!-- Cartes Statistiques -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-blue-100 p-6 rounded-lg shadow-lg flex items-center">
-                <img src="{% static 'assets/icon-users.svg' %}" class="w-12 h-12 mr-4">
+                <img src="{% static 'assets/users.svg' %}" class="w-12 h-12 mr-4">
                 <div>
                     <h2 class="text-blue-700 text-xl font-semibold">Total Utilisateurs</h2>
                     <p class="text-blue-900 text-2xl font-bold">{{ total_users }}</p>
@@ -94,7 +102,7 @@
             </div>
 
             <div class="bg-green-100 p-6 rounded-lg shadow-lg flex items-center">
-                <img src="{% static 'assets/icon-ads.svg' %}" class="w-12 h-12 mr-4">
+                <img src="{% static 'assets/announce.svg' %}" class="w-12 h-12 mr-4">
                 <div>
                     <h2 class="text-green-700 text-xl font-semibold">Total Annonces</h2>
                     <p class="text-green-900 text-2xl font-bold">{{ total_annonces }}</p>
@@ -102,16 +110,16 @@
             </div>
 
             <div class="bg-yellow-100 p-6 rounded-lg shadow-lg flex items-center">
-                <img src="{% static 'assets/icon-sales.svg' %}" class="w-12 h-12 mr-4">
+                <img src="{% static 'assets/accepte.svg' %}" class="w-12 h-12 mr-4">
                 <div>
-                    <h2 class="text-yellow-700 text-xl font-semibold">Annonces Validées</h2>
-                    <p class="text-yellow-900 text-2xl font-bold">{{ annonces_validees }}</p>
+                    <h2 class="text-green-700 text-xl font-semibold">Annonces Validées</h2>
+                    <p class="text-green-900 text-2xl font-bold">{{ annonces_validees }}</p>
                 </div>
             </div>
         </div>
 
         <!-- Graphiques -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="flex flex-row gap-8">
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Répartition des Annonces</h3>
                 <canvas id="barChart"></canvas>

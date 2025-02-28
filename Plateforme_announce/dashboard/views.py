@@ -8,6 +8,7 @@ from .forms import CategoryForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Count
+from django.utils.timezone import now
 
 
 @login_required
@@ -119,6 +120,21 @@ def rejeter_annonce(request, annonce_id):
     messages.error(request, "Annonce rejetée avec succès !")
     return redirect('dashboard')
 
+@login_required
+def marquer_annonce_payee(request, annonce_id):
+    if request.method != "POST":
+        return JsonResponse({"success": False, "message": "Méthode non autorisée."}, status=405)
+
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    if annonce.paiement_statut == "NON_PAYEE":
+        annonce.paiement_statut = "PAYEE"
+        annonce.save()
+        return JsonResponse({"success": True, "message": "Annonce marquée comme payée."})
+    else:
+        return JsonResponse({"success": False, "message": "Cette annonce est déjà payée."}, status=400)
+
+
 @login_required()
 def add_category(request):
     if request.method == 'POST':
@@ -139,7 +155,7 @@ from django.shortcuts import render, redirect
 from announces.models import Categories, Annonce
 from django.contrib import messages
 
-
+@login_required
 def add_annonce(request):
     categories = Categories.objects.all()
 
@@ -178,7 +194,7 @@ def add_annonce(request):
 @login_required
 def my_annonces(request):
     annonces = Annonce.objects.filter(user=request.user)  # ✅ Filtre par utilisateur connecté
-    return render(request, 'mes_annonces.html', {'annonces': annonces})
+    return render(request, 'annonces.html', {'annonces': annonces})
 
 
 from django.shortcuts import render
@@ -207,3 +223,85 @@ def statistics_view(request):
     }
 
     return render(request, "statistics.html", context)
+
+
+@login_required
+def supprimer_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id, user=request.user)
+    annonce.delete()
+    messages.success(request, "Annonce supprimée avec succès !")
+    return redirect('mes_annonces')
+
+
+@login_required
+def modifier_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id, user=request.user)
+    categories = Categories.objects.all()
+
+    if request.method == "POST":
+        titre = request.POST.get("titre")
+        description = request.POST.get("description")
+        prix = request.POST.get("prix")
+        image = request.FILES.get("image")
+        categorie_id = request.POST.get("categorie")
+
+        if not titre or not description or not prix or not categorie_id:
+            messages.error(request, "Tous les champs sont obligatoires.")
+        else:
+            categorie = Categories.objects.get(id=categorie_id)
+            annonce.titre = titre
+            annonce.description = description
+            annonce.prix = prix
+            if image:
+                annonce.image = image
+            annonce.categorie = categorie
+            annonce.statut = AnnonceStatus.EN_ATTENTE  # Réinitialisation du statut
+            annonce.save()
+            messages.success(request, "Annonce modifiée avec succès et remise en attente de validation.")
+            return redirect("mes_annonces")
+
+    return render(request, "modifier_annonce.html", {"annonce": annonce, "categories": categories})
+
+from django.shortcuts import render
+from .models import Paiement
+
+@login_required
+def liste_paiements(request):
+    paiements = Paiement.objects.all()
+    return render(request, 'liste_paiements.html', {'paiements': paiements})
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from django.utils.timezone import now
+from .models import Paiement
+from announces.models import Annonce
+import uuid
+
+@login_required
+def ajouter_paiement(request, annonce_id):
+    if request.method == "POST":
+        annonce = get_object_or_404(Annonce, id=annonce_id)
+
+        banque = request.POST.get("banque")
+        numero_facture = request.POST.get("numero_facture")
+        justificatif = request.FILES.get("justificatif")
+
+        if not banque or not numero_facture or not justificatif:
+            return JsonResponse({"success": False, "error": "Tous les champs sont obligatoires."})
+
+        paiement = Paiement.objects.create(
+            numero_paiement=uuid.uuid4().hex[:10].upper(),
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            date_paiement=now(),
+            statut="EN_ATTENTE",
+        )
+
+        return JsonResponse({"success": True, "message": "Paiement ajouté avec succès !"})
+
+    return JsonResponse({"success": False, "error": "Requête invalide."})
