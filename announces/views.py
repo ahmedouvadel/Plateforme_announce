@@ -112,3 +112,4 @@ def retirer_favori(request, annonce_id):
     favori = get_object_or_404(Favori, user=request.user, annonce_id=annonce_id)
     favori.delete()
     return JsonResponse({'success': True, 'message': 'Favori supprimé'})
+

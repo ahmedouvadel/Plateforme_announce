@@ -1,0 +1,183 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> <!-- Add Blower font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Poppins font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> <!-- Add Montserrat font -->
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <a href="{% url 'home' %}" class="flex items-center justify-center p-6 border-b border-gray-300">
+    <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
+</a>
+
+
+        <nav class="mt-6 space-y-2 px-4 font-['Poppins'] font-medium">
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+
+            <a href="{% url 'dashboard' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/dashboard/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/dashboard.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Dashboard</span>
+            </a>
+            {% endif %}
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'statistics' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/statistics/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                                                <img src="{% static 'assets/statistic.svg' %}" class="w-6 h-6">
+
+                <span class="ml-3">Statistique</span>
+            </a>
+            {% endif %}
+            <a href="{% url 'annonces' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/annonces/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Annonces</span>
+            </a>
+{% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
+
+
+                <a href="{% url 'users' %}"
+                   class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                          {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
+                    <img src="{% static 'assets/users.svg' %}" class="w-6 h-6">
+                    <span class="ml-3">Utilisateurs</span>
+                </a>
+            {% endif %}
+        </nav>
+
+        <!-- Profil utilisateur -->
+        <div class="p-4 border-t border-gray-300 flex items-center mt-auto">
+            {% if request.user.is_authenticated %}
+                <!-- Vérification si l'utilisateur a une photo -->
+{% if request.user.photo_user and request.user.photo_user.url %}
+    <img href="{% url 'profile' %}" src="{{ request.user.photo_user.url }}" alt="Profil"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
+{% else %}
+    <img href="{% url 'profile' %}" src="{% static 'assets/avatar.png' %}" alt="Profil par défaut"
+         class="w-10 h-10 rounded-full object-cover border border-gray-300">
+{% endif %}
+
+                <span  class="ml-3 text-gray-800">{{ request.user.username }}</span>
+                    <a href="{% url 'profile' %}" class="ml-20 text-sm text-gray-500 hover:underline">Profile</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="ml-20 text-sm text-gray-500 hover:underline">Se connecter</a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        {% block content %}
+              <h2 class="text-3xl font-semibold text-gray-900 mb-6 ">Liste des Paiements</h2>
+
+<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+
+        <table class="w-full border-collapse border border-gray-300 bg-white">
+            <thead>
+                <tr class="bg-gray-200 text-gray-700">
+                    <th class="border border-gray-300 p-3">Numéro de Paiement</th>
+                    <th class="border border-gray-300 p-3">Annonce</th>
+                    <th class="border border-gray-300 p-3">Utilisateur</th>
+                    <th class="border border-gray-300 p-3">Banque</th>
+                    <th class="border border-gray-300 p-3">Numéro Facture</th>
+                    <th class="border border-gray-300 p-3">Justificatif</th>
+                    <th class="border border-gray-300 p-3">Statut</th>
+                    <th class="border border-gray-300 p-3">Date</th>
+                   <th class="border border-gray-300 p-2">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+    {% for paiement in paiements %}
+    <tr class="text-center hover:bg-gray-100 transition">
+        <td class="border border-gray-300 p-3 font-bold">{{ paiement.numero_paiement }}</td>
+        <td class="border border-gray-300 p-3">
+            <a href="{% url 'annonce_detail' paiement.annonce.id %}" class="text-blue-500 hover:underline">
+                {{ paiement.annonce.titre }}
+            </a>
+        </td>
+        <td class="border border-gray-300 p-3">{{ paiement.utilisateur.username }}</td>
+        <td class="border border-gray-300 p-3">{{ paiement.banque }}</td>
+        <td class="border border-gray-300 p-3">{{ paiement.numero_facture }}</td>
+        <td class="border border-gray-300 p-3">
+            <a href="{{ paiement.justificatif.url }}" target="_blank" class="text-green-500 hover:underline">Voir</a>
+        </td>
+        <td class="border border-gray-300 p-3 font-semibold {% if paiement.statut == 'VALIDÉ' %} text-green-600 {% elif paiement.statut == 'REFUSÉ' %} text-red-600 {% else %} text-yellow-600 {% endif %}">
+            {{ paiement.statut }}
+        </td>
+        <td class="border border-gray-300 p-3 text-gray-600">{{ paiement.date|date:"d M Y - H:i" }}</td>
+
+        <td class="border border-gray-300 p-2">
+            {% csrf_token %}
+            {% if paiement.annonce.paiement_statut == "PAYEE" %}
+                ✅ Oui
+            {% else %}
+                ❌ Non
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition"
+                    onclick="marquerPayee({{ paiement.annonce.id }})">
+                    💳 Marquer Payée
+                </button>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8" class="text-center text-gray-500 p-4">Aucun paiement enregistré.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+        </table>
+    </div>
+
+        {% endblock %}
+    </main>
+
+    <script>
+    function marquerPayee(annonceId) {
+        let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+        if (!csrftoken) {
+            alert("CSRF token non trouvé !");
+            return;
+        }
+
+        fetch(`/dashboard/annonce_payee/${annonceId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Annonce marquée comme payée !');
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        }).catch(error => console.error("Erreur AJAX :", error));
+    }
+</script>
+
+
+</body>
+</html>

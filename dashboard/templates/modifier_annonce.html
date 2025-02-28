@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier l'Annonce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <a href="{% url 'home' %}" class="flex items-center justify-center p-6 border-b border-gray-300">
+            <img src="{% static 'assets/logo.png' %}" alt="Logo" class="w-32 bg-gray-900 pb-1 px-1 rounded-md">
+        </a>
+    </aside>
+
+    <!-- Contenu Principal -->
+    <main class="flex-1 p-6">
+        <div class="container mx-auto">
+
+            <div class="flex flex-col px-20 py-5 bg-white rounded-2xl shadow-2xl w-full max-w-4xl">
+                <h2 class="text-3xl font-light text-gray-900 mb-6 text-center">Modifier l'Annonce</h2>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="mb-4 px-4 py-2 text-white rounded-md {% if message.tags == 'success' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+                    
+                    <div class="space-y-4 border-b pb-4 mb-4">
+                        <input type="text" name="titre" value="{{ annonce.titre }}" placeholder="Titre" class="w-full p-3 border rounded-lg" required>
+                        <textarea name="description" placeholder="Description" class="w-full p-3 border rounded-lg" required>{{ annonce.description }}</textarea>
+                        <input type="number" name="prix" value="{{ annonce.prix }}" placeholder="Prix" class="w-full p-3 border rounded-lg" required>
+
+                        <!-- Image actuelle -->
+                        <div class="flex items-center">
+                            <img src="{{ annonce.image.url }}" alt="Image actuelle" class="w-20 h-20 rounded-lg border mr-4">
+                            <input type="file" name="image" class="w-full p-3 border rounded-lg">
+                        </div>
+
+                        <select name="categorie" class="w-full p-3 border rounded-lg" required>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if annonce.categorie.id == cat.id %}selected{% endif %}>
+                                    {{ cat.titre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
+                        Enregistrer les modifications
+                    </button>
+                </form>
+
+                <!-- Bouton Supprimer -->
+                <form method="post" action="{% url 'supprimer_annonce' annonce.id %}" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition">
+                        Supprimer l'annonce
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

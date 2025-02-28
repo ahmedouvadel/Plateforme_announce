@@ -18,7 +18,7 @@ class AnnoncePaiementStatus(models.TextChoices):
 
 class Annonce(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,  # ✅ Remplace l'import direct de User
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="annonces"
     )
@@ -38,6 +38,10 @@ class Annonce(models.Model):
         default="NON_PAYEE"
     )
     views = models.IntegerField(default=0)
+    date = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Date et heure de soumission de l'annonce."
+    )
 
     def __str__(self):
         return f"{self.titre} - {self.user.username}"
@@ -60,3 +64,5 @@ class Favori(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.annonce.titre}"
+
+

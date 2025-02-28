@@ -47,6 +47,15 @@
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
+            {% if request.user.is_authenticated and request.user.is_superuser %}
+
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
+            {% endif %}
 
 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <a href="{% url 'users' %}"

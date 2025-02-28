@@ -32,7 +32,7 @@
       <img src="{% static 'assets/logo.png' %}" alt="Logo" class="h-10 mr-2">
     </a>
 
-    <!-- Search Bar -->
+<!--     Search Bar-->
     <div class="flex-1 mx-32">
       <div class="relative items-center">
         <input type="text" placeholder="Chercher..." class="w-full py-2 pl-4 pr-10 rounded-lg text-gray-800">
@@ -81,7 +81,9 @@
         <div class="container mx-auto flex items-center justify-between">
 <!-- Barre du Dashboard (Visible seulement si connecté) -->
 {% if request.user.is_authenticated %}
-
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fas fa-bars"></i>
+            </a>
         <!-- Bouton Espace Dashboard -->
         <div class="relative group">
             <a href="{% url 'annonces' %}"
@@ -106,6 +108,8 @@
 
         </div>
     </div>
+
+
     <div class="container mx-auto px-20 py-8">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Annonces Payées</h2>
 

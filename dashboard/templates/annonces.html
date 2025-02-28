@@ -46,8 +46,15 @@
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
-
 {% if request.user.is_authenticated and request.user.is_superuser %}
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
+
+
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
                           {% if request.path == '/dashboard/users/' %}hover:bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %} ">
@@ -82,6 +89,13 @@
         {% block content %}
 
 <div class="container mx-auto">
+    {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 px-4 py-2 text-white rounded-md {% if message.tags == 'success' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
             <!-- 📊 Cartes Statistiques -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white p-6 rounded-lg shadow-lg flex items-center hover:shadow-2xl transition">
@@ -115,61 +129,109 @@
             </div>
 
             <!-- 📝 Liste des annonces -->
-               <div class="bg-white p-6 rounded-lg shadow-lg">
-                   <div class="flex justify-between mb-4">
-                                       <h2 class="text-xl font-semibold mb-4 text-gray-800">Vos annonces</h2>
-
-                <div class="flex flex-row justify-center items-center gap-5">
-                    <div class="relative ">
+    <!-- Liste des annonces avec option de paiement -->
+    <div class="bg-white p-6 rounded-lg shadow-lg mt-8">
+        <div class="flex justify-between mb-4">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Vos annonces</h2>
+            <div class="flex flex-row justify-center items-center gap-5">
+                <div class="relative ">
                     <input type="text" placeholder="🔍 Rechercher..." class="p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 ">
                 </div>
-                <div href="{% url 'add_annonce' %}"
-                   class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-1 hover:scale-110">
-                    <a href="{% url 'add_annonce' %}" > + Ajouter une annonce </a>
+                <div class="bg-[#E09351] text-white py-2 px-4 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-1 hover:scale-110">
+                    <a href="{% url 'add_annonce' %}"> + Ajouter une annonce </a>
                 </div>
-                </div>
-            </div>
-                <table class="w-full border-collapse border border-gray-300">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border border-gray-300 p-2">Titre</th>
-                            <th class="border border-gray-300 p-2">Statut</th>
-                            <th class="border border-gray-300 p-2">Prix</th>
-                            <th class="border border-gray-300 p-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for annonce in annonces %}
-                        <tr class="text-center hover:bg-gray-100 transition">
-                            <td class="border border-gray-300 p-2">{{ annonce.titre }}</td>
-                            <td class="border border-gray-300 p-2">
-                                {% if annonce.statut == "VALIDEE" %}
-                                    <span class="text-green-600 font-bold">Validée</span>
-                                {% elif annonce.statut == "EN_ATTENTE" %}
-                                    <span class="text-yellow-600 font-bold">En Attente</span>
-                                {% else %}
-                                    <span class="text-red-600 font-bold">Rejetée</span>
-                                {% endif %}
-                            </td>
-                            <td class="border border-gray-300 p-2">{{ annonce.prix }} MRU</td>
-                            <td class="border border-gray-300 p-2 flex justify-center gap-2">
-                                <a href="{% url 'annonce_detail' annonce.id %}" class="text-blue-500 hover:underline">Voir</a>
-                                <a href="#" class="text-yellow-500 hover:underline">Modifier</a>
-                                <a href="#" class="text-red-500 hover:underline">Supprimer</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="4" class="text-center text-gray-500 p-4">Aucune annonce disponible.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </div>
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 p-2">Titre</th>
+                    <th class="border border-gray-300 p-2">Statut</th>
+                    <th class="border border-gray-300 p-2">Prix</th>
+                    <th class="border border-gray-300 p-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for annonce in annonces %}
+                <tr class="text-center hover:bg-gray-100 transition">
+                    <td class="border border-gray-300 p-2">{{ annonce.titre }}</td>
+                    <td class="border border-gray-300 p-2">
+                        {% if annonce.statut == "VALIDEE" %}
+                            <span class="text-green-600 font-bold">Validée</span>
+                        {% elif annonce.statut == "EN_ATTENTE" %}
+                            <span class="text-yellow-600 font-bold">En Attente</span>
+                        {% else %}
+                            <span class="text-red-600 font-bold">Rejetée</span>
+                        {% endif %}
+                    </td>
+                    <td class="border border-gray-300 p-2">{{ annonce.prix }} MRU</td>
+                    <td class="border border-gray-300 p-2 flex justify-center gap-2">
+                    <div class="flex justify-between mt-4">
+                        <a href="{% url 'annonce_detail' annonce.id %}" class="px-4 py-2 bg-blue-500 text-white text-sm rounded-md shadow-md hover:bg-blue-700">👁 Voir</a>
+                        <a href="{% url 'modifier_annonce' annonce.id %}" class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-md shadow-md hover:bg-yellow-700">✏ Modifier</a>
+                        <a href="{% url 'supprimer_annonce' annonce.id %}" class="px-4 py-2 bg-red-500 text-white text-sm rounded-md shadow-md hover:bg-red-700">🗑 Supprimer</a>
+                    </div>
+                    {% if annonce.paiement_statut == "PAYEE" %}
+                        <span class="mt-3 px-4 py-2 bg-green-500 text-white text-sm rounded-md shadow-md">Annonce en avant ✅</span>
+                    {% else %}
+                        <button onclick="afficherFormulairePaiement({{ annonce.id }})" class="mt-3 px-4 py-2 bg-blue-500 text-white text-sm rounded-md shadow-md hover:bg-blue-700">💳 Payer pour mise en avant</button>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-gray-500 p-4">Aucune annonce disponible.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+            <!-- Fenêtre modale de paiement -->
+  <!-- Fenêtre modale de paiement -->
+<div id="modalPaiement" class="fixed inset-0 hidden bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-semibold mb-4">Paiement de l'annonce</h2>
+        <form id="formPaiement" action="{% url 'ajouter_paiement' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <input type="hidden" name="annonce_id" id="annonceIdInput">
+
+            <label class="block text-gray-700">Choisir une banque :</label>
+            <select name="banque" class="w-full p-2 border rounded-lg mb-4">
+                <option value="Bankily">Bankily</option>
+                <option value="Masrivi">Masrivi</option>
+                <option value="Sedad">Sedad</option>
+            </select>
+
+            <label class="block text-gray-700">Numéro de facture :</label>
+            <input type="text" name="numero_facture" class="w-full p-2 border rounded-lg mb-4" required>
+
+            <label class="block text-gray-700">Justificatif :</label>
+            <input type="file" name="justificatif" class="w-full p-2 border rounded-lg mb-4" required>
+
+            <div class="flex justify-between">
+                <button type="button" onclick="fermerFormulairePaiement()" class="px-4 py-2 bg-gray-500 text-white rounded-lg">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
 
         {% endblock %}
     </main>
 
+    <script>
+        function afficherFormulairePaiement(annonceId) {
+    document.getElementById("modalPaiement").classList.remove("hidden");
+    document.getElementById("annonceIdInput").value = annonceId;
+}
+
+function fermerFormulairePaiement() {
+    document.getElementById("modalPaiement").classList.add("hidden");
+}
+
+    </script>
 </body>
 </html>

@@ -11,4 +11,5 @@ urlpatterns = [
     path('ajouter_favori/<int:annonce_id>/', ajouter_favori, name='ajouter_favori'),
     path('mes-favoris/', mes_favoris, name='mes_favoris'),
     path('retirer_favori/<int:annonce_id>/', retirer_favori, name='retirer_favori'),
+
 ]

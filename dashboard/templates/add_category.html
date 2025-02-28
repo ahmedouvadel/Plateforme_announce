@@ -46,7 +46,12 @@
                 <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
                 <span class="ml-3">Annonces</span>
             </a>
-
+            <a href="{% url 'liste_paiements' %}"
+               class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
+                      {% if request.path == '/dashboard/paiements/' %}bg-[#E09351] shadow-xl text-white{% else %}text-gray-700{% endif %}">
+                <img src="{% static 'assets/announce.svg' %}" class="w-6 h-6">
+                <span class="ml-3">Paiements</span>
+            </a>
 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <a href="{% url 'users' %}"
                    class="flex items-center p-3 rounded-lg hover:bg-gray-600  hover:text-white hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d
@@ -97,7 +102,7 @@
             {% csrf_token %}
             <div id="categories-container">
                 <div class="flex items-center bg-gray-100 border border-gray-300 rounded-md px-4 py-3 w-full hover:shadow-xl">
-                    <input type="text" name="titre[]" placeholder="Nom de la catégorie" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
+                    <input type="text" name="titre" placeholder="Nom de la catégorie" class="bg-transparent outline-none w-full ml-3 text-gray-700" required>
                 </div>
             </div>
             <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-lg font-semibold shadow-md hover:bg-gray-900 hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-3d">

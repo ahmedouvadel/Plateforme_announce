@@ -1,7 +1,6 @@
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from announces.forms import AnnonceForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from announces.models import Annonce, Categories
 from .forms import AnnonceForm
 from .forms import CategoryForm
@@ -9,6 +8,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Count
 from django.utils.timezone import now
+from .models import Paiement
 
 
 @login_required
@@ -120,7 +120,7 @@ def rejeter_annonce(request, annonce_id):
     messages.error(request, "Annonce rejetée avec succès !")
     return redirect('dashboard')
 
-
+@login_required
 def marquer_annonce_payee(request, annonce_id):
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "Méthode non autorisée."}, status=405)
@@ -155,7 +155,7 @@ from django.shortcuts import render, redirect
 from announces.models import Categories, Annonce
 from django.contrib import messages
 
-
+@login_required
 def add_annonce(request):
     categories = Categories.objects.all()
 
@@ -194,7 +194,7 @@ def add_annonce(request):
 @login_required
 def my_annonces(request):
     annonces = Annonce.objects.filter(user=request.user)  # ✅ Filtre par utilisateur connecté
-    return render(request, 'mes_annonces.html', {'annonces': annonces})
+    return render(request, 'annonces.html', {'annonces': annonces})
 
 
 from django.shortcuts import render
@@ -223,4 +223,174 @@ def statistics_view(request):
     }
 
     return render(request, "statistics.html", context)
+
+
+@login_required
+def supprimer_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id, user=request.user)
+    annonce.delete()
+    messages.success(request, "Annonce supprimée avec succès !")
+    return redirect('mes_annonces')
+
+
+@login_required
+def modifier_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id, user=request.user)
+    categories = Categories.objects.all()
+
+    if request.method == "POST":
+        titre = request.POST.get("titre")
+        description = request.POST.get("description")
+        prix = request.POST.get("prix")
+        image = request.FILES.get("image")
+        categorie_id = request.POST.get("categorie")
+
+        if not titre or not description or not prix or not categorie_id:
+            messages.error(request, "Tous les champs sont obligatoires.")
+        else:
+            categorie = Categories.objects.get(id=categorie_id)
+            annonce.titre = titre
+            annonce.description = description
+            annonce.prix = prix
+            if image:
+                annonce.image = image
+            annonce.categorie = categorie
+            annonce.statut = AnnonceStatus.EN_ATTENTE  # Réinitialisation du statut
+            annonce.save()
+            messages.success(request, "Annonce modifiée avec succès et remise en attente de validation.")
+            return redirect("mes_annonces")
+
+    return render(request, "modifier_annonce.html", {"annonce": annonce, "categories": categories})
+
+from django.shortcuts import render
+from .models import Paiement
+
+
+def liste_paiements(request):
+    paiements = Paiement.objects.all()
+
+    # Vérification des paiements dans la console
+    print("Nombre de paiements récupérés :", paiements.count())
+    for paiement in paiements:
+        print(paiement.numero_paiement, paiement.utilisateur.username, paiement.banque, paiement.statut)
+
+    return render(request, "liste_paiements.html", {"paiements": paiements})
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from django.utils.timezone import now
+from .models import Paiement
+from announces.models import Annonce
+import uuid
+
+@login_required
+def ajouter_paiement(request, annonce_id):
+    if request.method == "POST":
+        annonce = get_object_or_404(Annonce, id=annonce_id)
+
+        banque = request.POST.get("banque")
+        numero_facture = request.POST.get("numero_facture")
+        justificatif = request.FILES.get("justificatif")
+
+        if not banque or not numero_facture or not justificatif:
+            return JsonResponse({"success": False, "error": "Tous les champs sont obligatoires."})
+
+        paiement = Paiement.objects.create(
+            numero_paiement=uuid.uuid4().hex[:10].upper(),
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            date_paiement=now(),
+            statut="EN_ATTENTE",
+        )
+
+        return JsonResponse({"success": True, "message": "Paiement ajouté avec succès !"})
+
+    return JsonResponse({"success": False, "error": "Requête invalide."})
+
+@login_required
+def ajouter_paiement(request):
+    """Vue pour soumettre un paiement."""
+    if request.method == 'POST':
+        annonce_id = request.POST.get('annonce_id')
+        banque = request.POST.get('banque')
+        numero_facture = request.POST.get('numero_facture')
+        justificatif = request.FILES.get('justificatif')
+
+        # Vérifier si l'annonce existe
+        annonce = get_object_or_404(Annonce, id=annonce_id)
+
+        # Vérifier si un paiement existe déjà pour cette annonce
+        if Paiement.objects.filter(annonce=annonce).exists():
+            return JsonResponse({"success": False, "message": "Paiement déjà soumis pour cette annonce."}, status=400)
+
+        # Création du paiement
+        paiement = Paiement.objects.create(
+            numero_paiement=uuid.uuid4().hex[:10].upper(),
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            date=now(),
+            statut="EN_ATTENTE",
+        )
+
+        messages.success(request, "Paiement soumis avec succès !")
+        return redirect('annonces')  # 🔥 Redirection après paiement
+
+    messages.error(request, "Requête invalide.")
+    return redirect('annonces')  # 🔥 Redirection en cas d'erreur
+
+
+def liste_paiements(request):
+    paiements = Paiement.objects.all()
+    return render(request, "liste_paiements.html", {"paiements": paiements})
+
+
+def payer_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    if request.method == "POST":
+        banque = request.POST.get("banque")
+        numero_facture = request.POST.get("numero_facture")
+        justificatif = request.FILES.get("justificatif")
+
+        paiement = Paiement.objects.create(
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            statut="EN_ATTENTE"
+        )
+
+        messages.success(request, "Paiement soumis pour validation.")
+        return redirect("dashboard")
+
+    return redirect("dashboard")
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def valider_paiement(request, paiement_id):
+    """Valider un paiement"""
+    paiement = get_object_or_404(Paiement, id=paiement_id)
+    paiement.statut = "VALIDÉ"
+    paiement.save()
+    messages.success(request, "Paiement validé avec succès.")
+    return redirect('liste_paiements')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def refuser_paiement(request, paiement_id):
+    """Refuser un paiement"""
+    paiement = get_object_or_404(Paiement, id=paiement_id)
+    paiement.statut = "REFUSÉ"
+    paiement.save()
+    messages.error(request, "Paiement refusé.")
+    return redirect('liste_paiements')
 
