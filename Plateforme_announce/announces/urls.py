@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import AnnoncesValideesListView, HomeView, AnnoncesParCategorieView, FilterAnnoncesView, annonce_detail, mes_favoris, ajouter_favori, retirer_favori
+from .views import AnnoncesValideesListView, annonces_mode, annonces_equipement, annonces_recentes, HomeView, AnnoncesParCategorieView, FilterAnnoncesView, annonce_detail, mes_favoris, ajouter_favori, retirer_favori
 
 urlpatterns = [
     path('annonces/validees/', AnnoncesValideesListView.as_view(), name='annonces_validees'),
@@ -11,5 +11,8 @@ urlpatterns = [
     path('ajouter_favori/<int:annonce_id>/', ajouter_favori, name='ajouter_favori'),
     path('mes-favoris/', mes_favoris, name='mes_favoris'),
     path('retirer_favori/<int:annonce_id>/', retirer_favori, name='retirer_favori'),
+    path("annonces/nouveaute/", annonces_recentes, name="annonces_recentes"),
+    path("annonces/mode/", annonces_mode, name="annonces_mode"),
+    path("annonces/equipement/", annonces_equipement, name="annonces_equipement"),
 
 ]

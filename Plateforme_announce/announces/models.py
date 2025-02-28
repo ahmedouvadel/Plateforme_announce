@@ -1,8 +1,17 @@
 from django.db import models
 from django.conf import settings  # ✅ Utilisation de settings.AUTH_USER_MODEL
 
+class GroupCategorie(models.Model):
+    nom = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nom
+
 class Categories(models.Model):
     titre = models.CharField(max_length=50)
+    group = models.ForeignKey(GroupCategorie, on_delete=models.CASCADE, related_name="categories")
+
 
     def __str__(self):
         return self.titre

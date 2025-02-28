@@ -99,10 +99,20 @@
 
             <!-- Boutons des catégories -->
             <div class="flex space-x-4 ">
-                <button class=" px-4 py-2 rounded-md font-semibold transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110  hover:border-2 hover:border-[#E09351]">Nouveauté</button>
-                <button class="px-4 py-2 rounded-md font-semibold  transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110  hover:border-2 hover:border-[#E09351]">Produits d'hiver</button>
-                <button class=" px-4 py-2 rounded-md font-semibold  transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110  hover:border-2 hover:border-[#E09351]">Soin et Beauté</button>
+                 <a href="{% url 'annonces_recentes' %}"
+                       class="px-4 py-2 rounded-md font-semibold transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110 hover:border-2 hover:border-[#E09351] bg-gray-200 hover:bg-[#E09351] hover:text-white">
+                        Nouveauté
+                </a>
+                 <a href="{% url 'annonces_equipement' %}"
+                       class="px-4 py-2 rounded-md font-semibold transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110 hover:border-2 hover:border-[#E09351] bg-gray-200 hover:bg-[#E09351] hover:text-white">
+                        Équipements
+                </a>
+                 <a href="{% url 'annonces_mode' %}"
+                       class="px-4 py-2 rounded-md font-semibold transition-all duration-100 ease-in-out transform hover:-translate-2 hover:scale-110 hover:border-2 hover:border-[#E09351] bg-gray-200 hover:bg-[#E09351] hover:text-white">
+                        Mode
+                </a>
             </div>
+
 
             <!-- Lien "Devenir Vendeur" -->
             <a href="{% url 'filter_annonces' %}" class="flex items-center bg-[#E09351] text-white px-4 py-2 rounded-md font-semibold transition-all duration-500 ease-in-out transform hover:-translate-2 hover:scale-110">

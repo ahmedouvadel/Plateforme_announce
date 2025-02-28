@@ -135,20 +135,31 @@ def marquer_annonce_payee(request, annonce_id):
         return JsonResponse({"success": False, "message": "Cette annonce est déjà payée."}, status=400)
 
 
-@login_required()
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from announces.models import GroupCategorie, Categories
+
+
+@login_required
 def add_category(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "✅ Catégorie ajoutée avec succès !")
-            return redirect('add_annonce')  # Redirection après ajout
-        else:
-            messages.error(request, "❌ Erreur lors de l'ajout de la catégorie. Vérifiez les champs.")
-    else:
-        form = CategoryForm()
+        nom = request.POST.get('titre')
+        group_id = request.POST.get('group_id')
 
-    return render(request, 'add_category.html', {'form': form})
+        if nom and group_id:
+            try:
+                group = GroupCategorie.objects.get(id=group_id)
+                Categories.objects.create(titre=nom, group=group)
+                messages.success(request, "✅ Catégorie ajoutée avec succès !")
+                return redirect('add_annonce')  # Redirection après ajout
+            except GroupCategorie.DoesNotExist:
+                messages.error(request, "❌ Le groupe de catégorie sélectionné n'existe pas.")
+        else:
+            messages.error(request, "❌ Veuillez remplir tous les champs.")
+
+    groupes = GroupCategorie.objects.all()  # Récupérer les groupes
+    return render(request, 'add_category.html', {'groupes': groupes})
 
 
 from django.shortcuts import render, redirect

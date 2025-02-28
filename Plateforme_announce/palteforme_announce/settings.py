@@ -90,7 +90,7 @@ TAILWIND_APP_NAME = 'theme'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'reso',
+        'NAME': 'plateform_announce',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',  # Serveur de la base de données

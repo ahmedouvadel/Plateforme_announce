@@ -113,3 +113,40 @@ def retirer_favori(request, annonce_id):
     favori.delete()
     return JsonResponse({'success': True, 'message': 'Favori supprimé'})
 
+from django.shortcuts import render
+from django.utils.timezone import now, timedelta
+from announces.models import Annonce
+
+from django.shortcuts import render
+from announces.models import Annonce, GroupCategorie
+
+def annonces_recentes(request):
+    """ Affiche toutes les annonces du groupe de catégories 'Nouveauté' """
+    try:
+        groupe_nouveaute = GroupCategorie.objects.get(nom="Nouveauté")
+        annonces = Annonce.objects.filter(categorie__group=groupe_nouveaute).order_by('-date')
+    except GroupCategorie.DoesNotExist:
+        annonces = []
+
+    return render(request, "new_annonces.html", {"annonces": annonces})
+
+
+def annonces_mode(request):
+    """ Affiche toutes les annonces du groupe de catégories 'Mode' """
+    try:
+        groupe_mode = GroupCategorie.objects.get(nom="Mode")
+        annonces = Annonce.objects.filter(categorie__group=groupe_mode).order_by('-date')
+    except GroupCategorie.DoesNotExist:
+        annonces = []
+
+    return render(request, "annonces_mode.html", {"annonces": annonces})
+
+def annonces_equipement(request):
+    """ Affiche toutes les annonces du groupe de catégories 'Équipements' """
+    try:
+        groupe_equipement = GroupCategorie.objects.get(nom="Équipements")
+        annonces = Annonce.objects.filter(categorie__group=groupe_equipement).order_by('-date')
+    except GroupCategorie.DoesNotExist:
+        annonces = []
+
+    return render(request, "annonces_equipement.html", {"annonces": annonces})
