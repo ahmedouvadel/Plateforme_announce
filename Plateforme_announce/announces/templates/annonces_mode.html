@@ -13,7 +13,7 @@
 
 
   {% for annonce in annonces %}
-    {% if  annonce.categorie.group.nom == "mode" %}
+    {% if  annonce.categorie.group.nom == "Mode" %}
       <a href="{% url 'annonce_detail' annonce.id %}" class="relative flex flex-col items-center h-auto gap-3 px-5 py-4 w-[18rem] bg-white rounded-2xl shadow-lg transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 hover:border-2 hover:border-[#E09351]">
         {% if annonce.image %}
           <div class="w-full">

@@ -89,6 +89,13 @@
         {% block content %}
 
 <div class="container mx-auto">
+    {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 px-4 py-2 text-white rounded-md {% if message.tags == 'success' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
             <!-- 📊 Cartes Statistiques -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white p-6 rounded-lg shadow-lg flex items-center hover:shadow-2xl transition">
@@ -182,44 +189,50 @@
     </div>
 
             <!-- Fenêtre modale de paiement -->
-    <div id="modalPaiement" class="fixed inset-0 hidden bg-gray-800 bg-opacity-50 flex justify-center items-center">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 class="text-xl font-semibold mb-4">Paiement de l'annonce</h2>
-            <p class="text-gray-700 mb-2">Numéro de paiement : <span id="numeroPaiement" class="font-bold">22634342</span></p>
-            <form id="formPaiement" href="{% url 'ajouter_paiement' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <label class="block text-gray-700">Choisir une banque :</label>
-                <select name="banque" class="w-full p-2 border rounded-lg mb-4">
-                    <option value="Bankily">Bankily</option>
-                    <option value="Masrivi">Masrivi</option>
-                    <option value="Sedad">Sedad</option>
-                </select>
+  <!-- Fenêtre modale de paiement -->
+<div id="modalPaiement" class="fixed inset-0 hidden bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-xl font-semibold mb-4">Paiement de l'annonce</h2>
+                    <p class="text-gray-700 mb-2">Numéro de paiement : <span id="numeroPaiement" class="font-bold">22634342</span></p>
+        <form id="formPaiement" action="{% url 'ajouter_paiement' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-                <label class="block text-gray-700">Numéro de facture :</label>
-                <input type="text" name="facture" class="w-full p-2 border rounded-lg mb-4" required>
+            <input type="hidden" name="annonce_id" id="annonceIdInput">
 
-                <label class="block text-gray-700">Justificatif :</label>
-                <input type="file" name="justificatif" class="w-full p-2 border rounded-lg mb-4" required>
+            <label class="block text-gray-700">Choisir une banque :</label>
+            <select name="banque" class="w-full p-2 border rounded-lg mb-4">
+                <option value="Bankily">Bankily</option>
+                <option value="Masrivi">Masrivi</option>
+                <option value="Sedad">Sedad</option>
+            </select>
 
-                <div class="flex justify-between">
-                    <button type="button" onclick="fermerFormulairePaiement()" class="px-4 py-2 bg-gray-500 text-white rounded-lg">Annuler</button>
-                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Confirmer</button>
-                </div>
-            </form>
-        </div>
+            <label class="block text-gray-700">Numéro de facture :</label>
+            <input type="text" name="numero_facture" class="w-full p-2 border rounded-lg mb-4" required>
+
+            <label class="block text-gray-700">Justificatif :</label>
+            <input type="file" name="justificatif" class="w-full p-2 border rounded-lg mb-4" required>
+
+            <div class="flex justify-between">
+                <button type="button" onclick="fermerFormulairePaiement()" class="px-4 py-2 bg-gray-500 text-white rounded-lg">Annuler</button>
+                <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg">Confirmer</button>
+            </div>
+        </form>
     </div>
+</div>
+
         {% endblock %}
     </main>
 
     <script>
         function afficherFormulairePaiement(annonceId) {
-            document.getElementById("modalPaiement").classList.remove("hidden");
-            document.getElementById("formPaiement").setAttribute("action", `/paiement/payer/${annonceId}/`);
-        }
+    document.getElementById("modalPaiement").classList.remove("hidden");
+    document.getElementById("annonceIdInput").value = annonceId;
+}
 
-        function fermerFormulairePaiement() {
-            document.getElementById("modalPaiement").classList.add("hidden");
-        }
+function fermerFormulairePaiement() {
+    document.getElementById("modalPaiement").classList.add("hidden");
+}
+
     </script>
 </body>
 </html>

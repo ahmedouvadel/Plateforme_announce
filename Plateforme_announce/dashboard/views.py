@@ -10,8 +10,10 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.utils.timezone import now
 
+def is_admin(user):
+    return user.is_authenticated and user.role == "admin"
 
-@login_required
+@user_passes_test(is_admin)
 def annonces_admin(request):
     """ Affiche toutes les annonces et permet le filtrage dynamique. """
 
@@ -39,7 +41,7 @@ def annonces_admin(request):
     return render(request, "dashboard.html", context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def update_annonce_status(request, annonce_id):
     """Mise à jour du statut d'une annonce via AJAX."""
     if request.method == "POST":
@@ -82,10 +84,9 @@ def dashboard_annonces(request):
     return render(request, 'annonces.html', context)
 
 
-def is_admin(user):
-    return user.is_authenticated and user.role == "admin"
 
-@login_required
+
+@user_passes_test(is_admin)
 def dashboard(request):
     return render(request, 'dashboard.html')
 
@@ -213,7 +214,7 @@ from django.shortcuts import render
 from authentication.models import User
 from announces.models import Annonce
 
-@login_required()
+@user_passes_test(lambda u: u.is_superuser)
 def statistics_view(request):
     total_users = User.objects.count()
     total_clients = User.objects.filter(role="client").count()
@@ -276,7 +277,7 @@ def modifier_annonce(request, annonce_id):
 from django.shortcuts import render
 from .models import Paiement
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def liste_paiements(request):
     paiements = Paiement.objects.all()
     return render(request, 'liste_paiements.html', {'paiements': paiements})
@@ -289,7 +290,6 @@ from django.utils.timezone import now
 from .models import Paiement
 from announces.models import Annonce
 import uuid
-
 @login_required
 def ajouter_paiement(request, annonce_id):
     if request.method == "POST":
@@ -316,3 +316,85 @@ def ajouter_paiement(request, annonce_id):
         return JsonResponse({"success": True, "message": "Paiement ajouté avec succès !"})
 
     return JsonResponse({"success": False, "error": "Requête invalide."})
+
+@login_required
+def ajouter_paiement(request):
+    """Vue pour soumettre un paiement."""
+    if request.method == 'POST':
+        annonce_id = request.POST.get('annonce_id')
+        banque = request.POST.get('banque')
+        numero_facture = request.POST.get('numero_facture')
+        justificatif = request.FILES.get('justificatif')
+
+        # Vérifier si l'annonce existe
+        annonce = get_object_or_404(Annonce, id=annonce_id)
+
+        # Vérifier si un paiement existe déjà pour cette annonce
+        if Paiement.objects.filter(annonce=annonce).exists():
+            return JsonResponse({"success": False, "message": "Paiement déjà soumis pour cette annonce."}, status=400)
+
+        # Création du paiement
+        paiement = Paiement.objects.create(
+            numero_paiement=uuid.uuid4().hex[:10].upper(),
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            date=now(),
+            statut="EN_ATTENTE",
+        )
+
+        messages.success(request, "Paiement soumis avec succès !")
+        return redirect('annonces')  # 🔥 Redirection après paiement
+
+    messages.error(request, "Requête invalide.")
+    return redirect('annonces')  # 🔥 Redirection en cas d'erreur
+
+@user_passes_test(lambda u: u.is_superuser)
+def liste_paiements(request):
+    paiements = Paiement.objects.all()
+    return render(request, "liste_paiements.html", {"paiements": paiements})
+
+@user_passes_test(lambda u: u.is_superuser)
+def payer_annonce(request, annonce_id):
+    annonce = get_object_or_404(Annonce, id=annonce_id)
+
+    if request.method == "POST":
+        banque = request.POST.get("banque")
+        numero_facture = request.POST.get("numero_facture")
+        justificatif = request.FILES.get("justificatif")
+
+        paiement = Paiement.objects.create(
+            annonce=annonce,
+            utilisateur=request.user,
+            banque=banque,
+            numero_facture=numero_facture,
+            justificatif=justificatif,
+            statut="EN_ATTENTE"
+        )
+
+        messages.success(request, "Paiement soumis pour validation.")
+        return redirect("dashboard")
+
+    return redirect("dashboard")
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def valider_paiement(request, paiement_id):
+    """Valider un paiement"""
+    paiement = get_object_or_404(Paiement, id=paiement_id)
+    paiement.statut = "VALIDÉ"
+    paiement.save()
+    messages.success(request, "Paiement validé avec succès.")
+    return redirect('liste_paiements')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def refuser_paiement(request, paiement_id):
+    """Refuser un paiement"""
+    paiement = get_object_or_404(Paiement, id=paiement_id)
+    paiement.statut = "REFUSÉ"
+    paiement.save()
+    messages.error(request, "Paiement refusé.")
+    return redirect('liste_paiements')

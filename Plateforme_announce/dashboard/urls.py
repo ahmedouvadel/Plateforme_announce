@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dashboard, ajouter_paiement, liste_paiements, dashboard_annonces, modifier_annonce, supprimer_annonce, rejeter_annonce, add_annonce, valider_annonce, add_category, my_annonces, annonces_admin, update_annonce_status, statistics_view, marquer_annonce_payee
+from .views import dashboard, ajouter_paiement, valider_paiement, refuser_paiement, payer_annonce, liste_paiements, dashboard_annonces, modifier_annonce, supprimer_annonce, rejeter_annonce, add_annonce, valider_annonce, add_category, my_annonces, annonces_admin, update_annonce_status, statistics_view, marquer_annonce_payee
 
 urlpatterns = [
     path('dashboard/', annonces_admin, name='dashboard'),
@@ -15,6 +15,10 @@ urlpatterns = [
     path('annonce_payee/<int:annonce_id>/', marquer_annonce_payee, name='marquer_annonce_payee'),
     path('modifier_annonce/<int:annonce_id>/', modifier_annonce, name='modifier_annonce'),
     path('supprimer_annonce/<int:annonce_id>/', supprimer_annonce, name='supprimer_annonce'),
-    path('paiements/', liste_paiements, name='liste_paiements'),
-    path('ajouter_paiement/', ajouter_paiement, name='ajouter_paiement'),
+    path("paiements/", liste_paiements, name="liste_paiements"),
+    path("paiement/ajouter/", ajouter_paiement, name="ajouter_paiement"),
+    path("paiement/valider/<int:paiement_id>/", valider_paiement, name="valider_paiement"),
+    path("paiement/refuser/<int:paiement_id>/", refuser_paiement, name="refuser_paiement"),
+    path("paiement/payer/<int:annonce_id>/", payer_annonce, name="payer_annonce"),
+
 ]

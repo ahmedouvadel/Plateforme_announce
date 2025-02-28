@@ -147,5 +147,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'authentication.User'
 
-LOGIN_REDIRECT_URL = '/'  # Redirige vers la fonction custom_redirect
+LOGIN_REDIRECT_URL = '/announces'  # Redirige vers la fonction custom_redirect
 LOGOUT_REDIRECT_URL = '/login'  # Redirige vers la page de connexion après logout

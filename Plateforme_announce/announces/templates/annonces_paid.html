@@ -6,8 +6,10 @@
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             {% for annonce in annonces_payees %}
-                <div class="swiper-slide flex flex-col items-center bg-white shadow-lg rounded-lg ">
-                    <img src="{{ annonce.image.url }}" alt="{{ annonce.titre }}" class="w-full h-72 object-cover rounded-lg">
+                <div href="{% url 'annonce_detail' annonce.id %}" class="swiper-slide flex flex-col items-center bg-white shadow-lg rounded-lg ">
+                    <a  >
+                      <img src="{{ annonce.image.url }}" alt="{{ annonce.titre }}" class="w-full h-72 object-cover rounded-lg">
+                    </a>
                 </div>
             {% empty %}
                 <p class="text-gray-500 text-center">Aucune annonce payée disponible.</p>
