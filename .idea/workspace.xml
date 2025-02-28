@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="list user and statu annonce and view profil with apdate and delet, and formulair annonce and categorye with creat statistic for data">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_equipement.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_equipement.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_mode.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_mode.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_paid.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/annonces_paid.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/announces/templates/liste_annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/announces/templates/liste_annonces.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/annonces.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/annonces.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/liste_paiements.html" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/templates/liste_paiements.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/dashboard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/dashboard/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Plateforme_announce/palteforme_announce/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="484a91f9-9dd0-4520-a768-e6ce589cd58d" name="Changes" comment="list user and statu annonce and view profil with apdate and delet, and formulair annonce and categorye with creat statistic for data" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +56,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "f8074e92",
+    "git-widget-placeholder": "394b8f59",
     "last_opened_file_path": "C:/Users/hpi7/Plateforme_announce",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
