@@ -8,7 +8,7 @@ Bienvenue sur la plateforme d'annonces en ligne ! Cette application permet aux u
 
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=0T2A_rSh6HQ" target="_blank">  
+  <a href="https://www.youtube.com/watch?v=fGGX80UEj2U" target="_blank">  
     <img src="https://img.youtube.com/vi/fGGX80UEj2U/0.jpg" alt="Démo de l'application Plateforme d'annonces: AxamPlateforme Django" width="600"/>
   </a>
 </p>
