@@ -1,38 +1,58 @@
-📢 Django Annonce Management System
+# 📢 Plateforme d'annonces
 
-A Django-based web application for managing advertisements and categories through the admin interface. This project allows you to create, update, and organize ads with various statuses (Pending, Approved, Rejected) and categories (Electronics, Real Estate, etc.).
+Bienvenue sur la plateforme d'annonces en ligne ! Cette application permet aux utilisateurs de publier, gérer et filtrer des annonces facilement, tandis que les administrateurs peuvent modérer et valider les contenus.
 
-🛠️ Features:
-Category Management: Add and manage categories for advertisements.
-Advertisement Management: Create, update, and delete ads with details like title, description, price, image, and category.
-Admin Customization: Enhanced Django admin interface with custom actions (Approve/Reject), search, and filters.
-Status Tracking: Manage ad statuses (Pending, Approved, Rejected) using Django TextChoices.
-📌 How to Run:
-Clone the repository:
-bash
-Copier
-Modifier
-git clone https://github.com/ahmedouvadel/Plateforme_announce
-cd your-repo
-Set up a virtual environment and install dependencies:
-bash
-Copier
-Modifier
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-pip install -r requirements.txt
-Apply migrations and create a superuser:
-bash
-Copier
-Modifier
-python manage.py migrate
-python manage.py createsuperuser
-Run the development server:
-bash
-Copier
-Modifier
-python manage.py runserver
-📊 Future Improvements:
-Add user authentication for ad submission.
-Implement image upload previews.
-Enhance ad filtering and search functionality.
+## 🔗 Démo vidéo (YouTube)
+📺 Voir la démonstration complète ici : [https://www.youtube.com/watch?v=VOTRE_VIDEO_ID](https://www.youtube.com/watch?v=fGGX80UEj2U)
+
+> Cette vidéo vous guide à travers toutes les fonctionnalités principales :
+> - 🔐 Authentification (Inscription / Connexion)
+> - 👤 Gestion de profil utilisateur avec photo
+> - 📝 Ajout, modification et suppression d'annonces
+> - ✅ Validation ou rejet des annonces côté admin
+> - 📊 Tableau de bord avec statistiques dynamiques
+> - 🔍 Filtrage par statut (en attente, validées, rejetées)
+
+## 🚀 Fonctionnalités principales
+
+### Utilisateurs
+- Création de compte avec informations personnelles (email, téléphone, adresse, photo...)
+- Connexion et mise à jour du profil
+- Ajout d'annonces avec image, titre, description, catégorie
+- Visualisation des annonces avec leur statut (en attente, validée, rejetée)
+
+### Administrateur
+- Interface de modération centralisée
+- Dashboard statistiques (total, validées, rejetées...)
+- Changement du statut d'une annonce (en temps réel)
+- Liste complète de toutes les annonces avec filtrage
+
+## 🛠️ Technologies utilisées
+- Backend : Django 5.1 (Python)
+- Frontend : HTML + TailwindCSS
+- Authentification : Custom User model avec rôles (`admin` / `client`)
+- Base de données : PostgreSQL ou SQLite
+
+## 📁 Structure principale
+```
+├── authentication/      # Gestion des utilisateurs
+├── announces/           # Modèle et logique des annonces
+├── dashboard/           # Interfaces utilisateurs/admin
+├── static/              # Fichiers CSS, logos, icônes
+├── templates/           # Pages HTML avec Tailwind
+├── media/               # Upload des images utilisateur / annonces
+├── manage.py
+└── README.md            # Ce fichier
+```
+
+## 📎 Liens utiles
+- 🔗 URL de production / test : `http://127.0.0.1:8000/`
+- 🔗 Lien de la démo YouTube : [https://www.youtube.com/watch?v=VOTRE_VIDEO_ID](https://www.youtube.com/watch?v=fGGX80UEj2U)
+
+## 👨‍💻 Auteur
+Développé par Ahmedou vadel && Dahoud Elatigh 🇲🇷
+
+---
+
+🧡 N'hésitez pas à mettre une ⭐ sur le repo si vous aimez le projet !
+
