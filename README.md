@@ -12,6 +12,8 @@ Bienvenue sur la plateforme d'annonces en ligne ! Cette application permet aux u
     <img src="https://img.youtube.com/vi/fGGX80UEj2U/0.jpg" alt="Démo de l'application Plateforme d'annonces: AxamPlateforme Django" width="600"/>
   </a>
 </p>
+##
+
 > Cette vidéo vous guide à travers toutes les fonctionnalités principales :
 > - 🔐 Authentification (Inscription / Connexion)
 > - 👤 Gestion de profil utilisateur avec photo
@@ -38,7 +40,7 @@ Bienvenue sur la plateforme d'annonces en ligne ! Cette application permet aux u
 - Backend : Django 5.1 (Python)
 - Frontend : HTML + TailwindCSS
 - Authentification : Custom User model avec rôles (`admin` / `client`)
-- Base de données : PostgreSQL ou SQLite
+- Base de données : PostgreSQL ou MySQL
 
 ## 📁 Structure principale
 ```
