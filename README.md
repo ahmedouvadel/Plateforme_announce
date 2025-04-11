@@ -3,8 +3,15 @@
 Bienvenue sur la plateforme d'annonces en ligne ! Cette application permet aux utilisateurs de publier, gérer et filtrer des annonces facilement, tandis que les administrateurs peuvent modérer et valider les contenus.
 
 ## 🔗 Démo vidéo (YouTube)
-📺 Voir la démonstration complète ici : [https://www.youtube.com/watch?v=VOTRE_VIDEO_ID](https://www.youtube.com/watch?v=fGGX80UEj2U)
+📺 Pour une démonstration complète, cliquez sur l'image ci-dessus ou regardez directement sur YouTube :
+[Démo de l'application Plateforme d'annonces: AxamPlateforme Django + Tailwind CSS ](https://www.youtube.com/watch?v=fGGX80UEj2U)
 
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=0T2A_rSh6HQ" target="_blank">  
+    <img src="https://img.youtube.com/vi/fGGX80UEj2U/0.jpg" alt="Démo de l'application Plateforme d'annonces: AxamPlateforme Django" width="600"/>
+  </a>
+</p>
 > Cette vidéo vous guide à travers toutes les fonctionnalités principales :
 > - 🔐 Authentification (Inscription / Connexion)
 > - 👤 Gestion de profil utilisateur avec photo
